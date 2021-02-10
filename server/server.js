@@ -4,7 +4,10 @@ const compression = require("compression");
 const path = require("path");
 const db = require("./db");
 const cookieSession = require("cookie-session");
-const { hash } = require("./bc");
+const { hash, compare } = require("./bc");
+const { sendEmail } = require("./ses");
+const cryptoRandomString = require("crypto-random-string");
+const csurf = require("csurf");
 
 let cookie_sec;
 
@@ -26,6 +29,13 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 app.get("/welcome", (req, res) => {
     // if you don't have the cookie-session middelware this code will NOT work!
@@ -49,7 +59,7 @@ app.get("*", (req, res) => {
     }
 });
 
-app.post("/register", (req, res) => {
+app.post("/registration", (req, res) => {
     const firstName = req.body.first;
     const lastName = req.body.last;
     const email = req.body.email;
@@ -72,6 +82,108 @@ app.post("/register", (req, res) => {
             })
             .catch((err) => console.log("err in hash:", err));
     } else {
+        res.json({ success: false });
+    }
+});
+
+app.post("/login", (req, res) => {
+    const email = req.body.email;
+    const pw = req.body.password;
+
+    if ((email, pw)) {
+        db.getEmailData(email).then(({ rows }) => {
+            let hashedPw = rows[0].password;
+
+            compare(pw, hashedPw)
+                .then(() => {
+                    req.session.userId = rows[0].id;
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log("err in comparation: ", err);
+                    res.json({ success: false });
+                });
+        });
+    } else {
+        console.log("no input");
+        res.json({ success: false });
+    }
+});
+
+app.post("/password/reset/start", (req, res) => {
+    const email = req.body.email;
+
+    if (email) {
+        db.getEmailData(email).then(({ rows }) => {
+            let savedEmail = rows[0].email;
+            const secretCode = cryptoRandomString({
+                length: 6,
+            });
+
+            compare(email, savedEmail)
+                .then(() => {
+                    db.sendCode(email, secretCode)
+                        .then(() => {
+                            sendEmail(
+                                email,
+                                secretCode,
+                                "Here is the code you need to reset your password."
+                            );
+                            res.json({ success: true });
+                        })
+                        .catch((err) => {
+                            console.log("this is err sending email:", err);
+                        });
+                })
+                .catch((err) => {
+                    console.log("err in comparation, email: ", err);
+                    res.json({ success: false });
+                });
+        });
+    } else {
+        console.log("no input");
+        res.json({ success: false });
+    }
+});
+
+app.post("/password/reset/verify", (req, res) => {
+    const pw = req.body.password;
+    const code = req.body.code;
+
+    if ((pw, code)) {
+        db.verifyCode(code).then(({ rows }) => {
+            let email = rows[0].email;
+            let correctCode = rows.find((row) => {
+                return row.code === req.body.code;
+            });
+
+            compare(correctCode, email)
+                .then(() => {
+                    hash(pw)
+                        .then((hashedPw) => {
+                            db.updatePw(email, hashedPw)
+                                .then(() => {
+                                    res.json({ success: true });
+                                })
+                                .catch((err) => {
+                                    console.log(
+                                        "this is err updating password:",
+                                        err
+                                    );
+                                    res.json({ success: false });
+                                });
+                        })
+                        .catch((err) => {
+                            console.log("err in hashing: ", err);
+                        });
+                })
+                .catch((err) => {
+                    console.log("err in comparation code and email: ", err);
+                    res.json({ success: false });
+                });
+        });
+    } else {
+        console.log("no input");
         res.json({ success: false });
     }
 });

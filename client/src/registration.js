@@ -2,17 +2,19 @@
 // class component have state!
 // (class components also have lifecycle methods (like componentDidMount))
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
+
+import { Link } from "react-router-dom";
 
 export default class Registration extends React.Component {
     constructor() {
         super();
         this.state = {
             error: false,
-            //first: "",
-            //last: "",
-            //email: "",
-            //password: "",
+            first: "",
+            last: "",
+            email: "",
+            password: "",
         };
         // strategy #1 for binding
         // this.handleChange = this.handleChange.bind(this);
@@ -28,7 +30,7 @@ export default class Registration extends React.Component {
             .post("/registration", this.state)
             .then((resp) => {
                 console.log("resp from server: ", resp);
-                if (error) {
+                if (!resp.data.success) {
                     this.setState({
                         error: true,
                     });
@@ -99,6 +101,7 @@ export default class Registration extends React.Component {
                     placeholder="password"
                 />
                 <button onClick={() => this.handleClick()}>submit</button>
+                <Link to="/login">You already have an account? Log in.</Link>
             </div>
         );
     }
