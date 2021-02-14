@@ -42,7 +42,7 @@ module.exports.sendCode = (email, code) => {
 
 module.exports.verifyCode = () => {
     const q = `SELECT * FROM reset_codes
-    WHERE CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'`;
+    WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'`;
     return db.query(q);
 };
 

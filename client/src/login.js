@@ -27,7 +27,7 @@ export default class Login extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log("err in registration: ", err);
+                console.log("err in login: ", err);
                 this.setState({
                     error: true,
                 });

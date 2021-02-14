@@ -49,6 +49,8 @@ export default class Reset extends React.Component {
                 } else {
                     this.setState({
                         renderView: 3,
+                    }).catch((err) => {
+                        console.log("err in rendering view 3: ", err);
                     });
                 }
             })
@@ -91,7 +93,7 @@ export default class Reset extends React.Component {
                         onChange={(e) => this.handleChange(e)}
                         name="password"
                         type="password"
-                        placeholder="password"
+                        placeholder="New Password"
                     />
                     <input
                         onChange={(e) => this.handleChange(e)}

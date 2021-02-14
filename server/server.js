@@ -24,6 +24,12 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.use(
+    express.urlencoded({
+        extended: false,
+    })
+);
+
+app.use(
     cookieSession({
         secret: cookie_sec,
         maxAge: 1000 * 60 * 60 * 24 * 14,
@@ -152,35 +158,30 @@ app.post("/password/reset/verify", (req, res) => {
 
     if ((pw, code)) {
         db.verifyCode(code).then(({ rows }) => {
-            let email = rows[0].email;
+            let savedEmail = rows[0].email;
             let correctCode = rows.find((row) => {
                 return row.code === req.body.code;
             });
 
-            compare(correctCode, email)
-                .then(() => {
-                    hash(pw)
-                        .then((hashedPw) => {
-                            db.updatePw(email, hashedPw)
-                                .then(() => {
-                                    res.json({ success: true });
-                                })
-                                .catch((err) => {
-                                    console.log(
-                                        "this is err updating password:",
-                                        err
-                                    );
-                                    res.json({ success: false });
-                                });
-                        })
-                        .catch((err) => {
-                            console.log("err in hashing: ", err);
-                        });
-                })
-                .catch((err) => {
-                    console.log("err in comparation code and email: ", err);
-                    res.json({ success: false });
-                });
+            if (correctCode) {
+                hash(pw)
+                    .then((hashedPw) => {
+                        db.updatePw(savedEmail, hashedPw)
+                            .then(() => {
+                                res.json({ success: true });
+                            })
+                            .catch((err) => {
+                                console.log(
+                                    "this is err updating password:",
+                                    err
+                                );
+                                res.json({ success: false });
+                            });
+                    })
+                    .catch((err) => {
+                        console.log("err in hashing: ", err);
+                    });
+            }
         });
     } else {
         console.log("no input");
