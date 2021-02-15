@@ -8,6 +8,9 @@ const { hash, compare } = require("./bc");
 const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
 const csurf = require("csurf");
+const { uploader } = require("./uploads");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
 
 let cookie_sec;
 
@@ -180,9 +183,43 @@ app.post("/password/reset/verify", (req, res) => {
                     })
                     .catch((err) => {
                         console.log("err in hashing: ", err);
+                        res.json({ success: false });
                     });
             }
         });
+    } else {
+        console.log("no input");
+        res.json({ success: false });
+    }
+});
+
+app.get("/user", (req, res) => {
+    const id = req.session.userId;
+    db.getUserData(id)
+        .then(({ rows }) => {
+            res.json({ success: true, data: rows[0] });
+        })
+        .catch((err) => {
+            console.log("this is err getting user data: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.post("/profilePic", uploader.single("file"), s3.upload, (req, res) => {
+    const { filename } = req.file;
+    const url = `${s3Url}${filename}`;
+    const id = req.session.userId;
+
+    if (req.file) {
+        db.uploadImg(id, url)
+            .then(({ rows }) => {
+                //console.log("rows[0] profile pic: ", rows[0].profile_pic_url)
+                res.json({ success: true, rows: rows[0].profile_pic_url });
+            })
+            .catch((err) => {
+                console.log("this is the err in upload profile pic: ", err);
+                res.json({ success: false });
+            });
     } else {
         console.log("no input");
         res.json({ success: false });

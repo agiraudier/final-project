@@ -1,6 +1,6 @@
 import { Logo } from "./logo.js";
 import { Component } from "react";
-import { ProfilePic } from "./profile-pic.js";
+import { ProfilePic } from "./profilePic.js";
 import { Uploader } from "./uploader.js";
 import axios from "./axios.js";
 
@@ -12,8 +12,8 @@ export class App extends Component {
         this.state = { uploaderVisible: false };
 
         // TODO: Bind methods if needed
-        //this.toggleUploader = this.toggleUploader.bind(this);
-        //this.setProfilePicUrl = this.setProfilePicUrl.bind(this);
+        this.toggleUploader = this.toggleUploader.bind(this);
+        this.setProfilePicUrl = this.setProfilePicUrl.bind(this);
     }
 
     componentDidMount() {
@@ -24,10 +24,10 @@ export class App extends Component {
             .get("/user", this.state)
             .then((resp) => {
                 console.log("resp from axios user: ", resp);
-                this.state({
-                    firstName: this.firstName,
-                    lastName: this.lastName,
-                    profilePicUrl: this.profilePicUrl,
+                this.setState({
+                    first: this.first,
+                    lastName: this.last,
+                    profilePicUrl: this.profile_pic_url,
                 });
             })
             .catch((err) => {
