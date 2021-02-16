@@ -1,15 +1,21 @@
-import { Logo } from "./logo.js";
 import { Component } from "react";
+import axios from "./axios.js";
+import { Logo } from "./logo.js";
 import { ProfilePic } from "./profilePic.js";
 import { Uploader } from "./uploader.js";
-import axios from "./axios.js";
+//import { Profile } from "./profile.js";
 
 export class App extends Component {
     constructor(props) {
         super(props);
 
         // Initialize App's state
-        this.state = { uploaderVisible: false };
+        this.state = {
+            uploaderVisible: false,
+            firstName: "",
+            lastName: "",
+            profilePicUrl: "",
+        };
 
         // TODO: Bind methods if needed
         this.toggleUploader = this.toggleUploader.bind(this);
@@ -21,13 +27,14 @@ export class App extends Component {
         // TODO: Make an axios request to fetch the user's data when the component mounts
         // TODO: update the state when the data is retrieved
         axios
-            .get("/user", this.state)
-            .then((resp) => {
-                console.log("resp from axios user: ", resp);
+            .get("/api/user")
+            .then((res) => {
+                console.log("resp from axios user: ", res);
                 this.setState({
-                    first: this.first,
-                    lastName: this.last,
-                    profilePicUrl: this.profile_pic_url,
+                    id: res.data.rows.id,
+                    firstName: res.data.rows.first,
+                    lastName: res.data.rows.last,
+                    profilePicUrl: res.data.rows.profile_pic_url,
                 });
             })
             .catch((err) => {
@@ -45,7 +52,7 @@ export class App extends Component {
         // TODO: Updates the "profilePicUrl" in the state
         // TODO: Hides the uploader
         this.setState({
-            profilePicUrl,
+            profilePicUrl: profilePicUrl,
         });
     }
 
@@ -55,8 +62,9 @@ export class App extends Component {
                 <Logo />
                 <ProfilePic
                     // Passing down props:
-                    firstName={this.state.first}
-                    lastName={this.state.last}
+                    id={this.state.id}
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
                     // Passing down methods as standard functions (binding needed):
                     toggleUploader={this.toggleUploader}
@@ -65,7 +73,7 @@ export class App extends Component {
                 {this.state.uploaderVisible && (
                     <Uploader
                         // Passing down methods with arrow function (no binding needed):
-                        setProfilePicUrl={() => this.setProfilePicUrl()}
+                        setProfilePicUrl={this.setProfilePicUrl}
                     />
                 )}
             </div>

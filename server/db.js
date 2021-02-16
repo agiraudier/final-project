@@ -58,9 +58,9 @@ module.exports.updatePw = (email, hashedPw) => {
 
 ////GET user data////////////
 
-module.exports.getUserData = (id) => {
+module.exports.getUserData = (userId) => {
     const q = `SELECT * FROM users WHERE id=$1`;
-    const params = [id];
+    const params = [userId];
     return db.query(q, params);
 };
 

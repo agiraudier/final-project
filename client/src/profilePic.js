@@ -1,11 +1,20 @@
-export function ProfilePic(props) {
-    console.log(props);
+export function ProfilePic({
+    firstName,
+    lastName,
+    profilePicUrl,
+    toggleUploader,
+}) {
+    console.log(
+        "first name and last name from profilePic: ",
+        firstName,
+        lastName
+    );
 
     return (
-        <div onClick={props.toggleUploader}>
+        <div onClick={toggleUploader}>
             <img
-                src={props.profilePicUrl || "./default.png"}
-                alt={`${props.firstName}`}
+                src={profilePicUrl || "./default.png"}
+                alt={`${firstName} ${lastName}`}
             ></img>
         </div>
     );

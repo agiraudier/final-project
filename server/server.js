@@ -59,15 +59,6 @@ app.get("/welcome", (req, res) => {
     }
 });
 
-app.get("*", (req, res) => {
-    if (!req.session.userId) {
-        // if the user is not logged in, redirect to /welcome
-        res.redirect("/welcome");
-    } else {
-        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
-    }
-});
-
 app.post("/registration", (req, res) => {
     const firstName = req.body.first;
     const lastName = req.body.last;
@@ -95,6 +86,14 @@ app.post("/registration", (req, res) => {
     }
 });
 
+app.get("/login", (req, res) => {
+    if (!req.session.userId) {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    } else {
+        res.redirect("/login");
+    }
+});
+
 app.post("/login", (req, res) => {
     const email = req.body.email;
     const pw = req.body.password;
@@ -104,9 +103,15 @@ app.post("/login", (req, res) => {
             let hashedPw = rows[0].password;
 
             compare(pw, hashedPw)
-                .then(() => {
-                    req.session.userId = rows[0].id;
-                    res.json({ success: true });
+                .then((match) => {
+                    if (match) {
+                        req.session.userId = rows[0].id;
+                        req.session.loggedIn = rows[0].id;
+                        res.json({ success: true });
+                    } else {
+                        console.log("err in matching");
+                        res.json({ success: false });
+                    }
                 })
                 .catch((err) => {
                     console.log("err in comparation: ", err);
@@ -193,11 +198,13 @@ app.post("/password/reset/verify", (req, res) => {
     }
 });
 
-app.get("/user", (req, res) => {
-    const id = req.session.userId;
+app.get("/api/user", (req, res) => {
+    //console.log("this is req session userid: ", req.session.userId);
+    let id = req.session.userId;
     db.getUserData(id)
         .then(({ rows }) => {
-            res.json({ success: true, data: rows[0] });
+            console.log("this rows[0]: ", rows[0]);
+            res.json({ success: true, rows: rows[0] });
         })
         .catch((err) => {
             console.log("this is err getting user data: ", err);
@@ -213,8 +220,8 @@ app.post("/profilePic", uploader.single("file"), s3.upload, (req, res) => {
     if (req.file) {
         db.uploadImg(id, url)
             .then(({ rows }) => {
-                //console.log("rows[0] profile pic: ", rows[0].profile_pic_url)
-                res.json({ success: true, rows: rows[0].profile_pic_url });
+                //console.log("rows[0] profile pic: ", rows[0].profile_pic_url);
+                res.json({ success: true, data: rows[0].profile_pic_url });
             })
             .catch((err) => {
                 console.log("this is the err in upload profile pic: ", err);
@@ -223,6 +230,16 @@ app.post("/profilePic", uploader.single("file"), s3.upload, (req, res) => {
     } else {
         console.log("no input");
         res.json({ success: false });
+    }
+});
+
+//DONT MOVE THIS ROUTE///////////////////////////////////////////////
+app.get("*", (req, res) => {
+    if (!req.session.userId) {
+        // if the user is not logged in, redirect to /welcome
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
     }
 });
 

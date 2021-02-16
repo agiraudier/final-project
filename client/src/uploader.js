@@ -45,6 +45,7 @@ export class Uploader extends Component {
                 <input
                     name="file"
                     type="file"
+                    accept="image/*"
                     onChange={(e) => this.handleChange(e)}
                 ></input>
                 <button onClick={(e) => this.uploadImg(e)}>Upload</button>
