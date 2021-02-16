@@ -233,6 +233,21 @@ app.post("/profilePic", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+app.post("/bio", (req, res) => {
+    let id = req.session.userId;
+    const bio = req.body.bio;
+
+    db.editBio(id, bio)
+        .then(({ rows }) => {
+            //console.log("rows[0] bio: ", rows[0].bio);
+            res.json({ success: true, data: rows[0].bio });
+        })
+        .catch((err) => {
+            console.log("this is the err in uploading bio: ", err);
+            res.json({ success: false });
+        });
+});
+
 //DONT MOVE THIS ROUTE///////////////////////////////////////////////
 app.get("*", (req, res) => {
     if (!req.session.userId) {
