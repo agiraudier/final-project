@@ -1,7 +1,7 @@
 import { ProfilePic } from "./profilePic";
 import { BioEditor } from "./bioEditor";
 
-export default function Profile(props) {
+export function Profile(props) {
     console.log("this are the props in Profile: ", props);
     return (
         <div>

@@ -1,9 +1,9 @@
 import { Component } from "react";
 import axios from "./axios.js";
 import { Logo } from "./logo.js";
-//import { ProfilePic } from "./profilePic.js";
 import { Uploader } from "./uploader.js";
 import { Profile } from "./profile.js";
+import { ProfilePic } from "./profilePic.js";
 
 export class App extends Component {
     constructor(props) {
@@ -62,14 +62,11 @@ export class App extends Component {
         return (
             <div className={"app"}>
                 <Logo />
-                <Profile
-                    // Passing down props:
+                <ProfilePic
                     id={this.state.id}
                     firstName={this.state.firstName}
                     lastName={this.state.lastName}
                     profilePicUrl={this.state.profilePicUrl}
-                    bio={this.state.bio}
-                    // Passing down methods as standard functions (binding needed):
                     toggleUploader={this.toggleUploader}
                 />
                 {/*Conditionally render the Uploader: */}
@@ -79,6 +76,15 @@ export class App extends Component {
                         setProfilePicUrl={this.setProfilePicUrl}
                     />
                 )}
+                <Profile
+                    // Passing down props:
+                    id={this.state.id}
+                    firstName={this.state.firstName}
+                    lastName={this.state.lastName}
+                    profilePicUrl={this.state.profilePicUrl}
+                    bio={this.state.bio}
+                    // Passing down methods as standard functions (binding needed):
+                />
             </div>
         );
     }

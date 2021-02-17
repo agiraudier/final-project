@@ -6,15 +6,16 @@ export class BioEditor extends Component {
         super(props);
         this.state = {
             error: false,
-            file: null,
+            bio: this.props.bio,
+            editorVisible: false,
         };
-        this.uploadImg = this.uploadImg.bind(this);
+        this.toggleEditor = this.toggleEditor.bind(this);
     }
 
     handleChange(e) {
         this.setState(
             {
-                file: e.target.files[0],
+                [e.target.name]: e.target.value,
             },
             () =>
                 console.log(
@@ -30,9 +31,46 @@ export class BioEditor extends Component {
         });
     }
 
+    handleClick() {
+        axios
+            .post("/bio", this.state)
+            .then((resp) => {
+                console.log("resp from bio: ", resp);
+                this.setState({
+                    editorVisible: false,
+                    bio: resp.data.bio,
+                });
+            })
+            .catch((err) => {
+                console.log("err in bio: ", err);
+                this.setState({
+                    error: true,
+                });
+            });
+    }
+
     render() {
         if (this.state.editorVisible) {
-            return <div></div>;
+            return (
+                <div>
+                    <h1>Edit mode</h1>
+                    <textarea
+                        onChange={(e) => this.handleChange(e)}
+                        defaultValue={this.state.bio}
+                        name="bio"
+                    ></textarea>
+                    <button onClick={() => this.handleClick()}>Save</button>
+                    {this.state.error && <p>Something broke :(</p>}
+                </div>
+            );
         }
+        return (
+            <div>
+                <h4>{this.props.bio}</h4>
+                <button onClick={() => this.setState({ editorVisible: true })}>
+                    Edit
+                </button>
+            </div>
+        );
     }
 }
