@@ -248,6 +248,25 @@ app.post("/bio", (req, res) => {
         });
 });
 
+app.get("/otherProfile/:id", (req, res) => {
+    //console.log("req session userId: ", req.session.userId);
+    //console.log("req params id: ", req.params.id);
+    const id = req.params.id;
+    db.getUserData(id)
+        .then(({ rows }) => {
+            //console.log("this rows[0] otherProfile: ", rows[0]);
+            res.json({
+                success: true,
+                rows: rows[0],
+                cookie: req.session.userId,
+            });
+        })
+        .catch((err) => {
+            console.log("this is err getting user data: ", err);
+            res.json({ success: false });
+        });
+});
+
 //DONT MOVE THIS ROUTE///////////////////////////////////////////////
 app.get("*", (req, res) => {
     if (!req.session.userId) {

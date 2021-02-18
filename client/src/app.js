@@ -4,6 +4,8 @@ import { Logo } from "./logo.js";
 import { Uploader } from "./uploader.js";
 import { Profile } from "./profile.js";
 import { ProfilePic } from "./profilePic.js";
+import { OtherProfile } from "./otherProfile.js";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export class App extends Component {
     constructor(props) {
@@ -76,15 +78,33 @@ export class App extends Component {
                         setProfilePicUrl={this.setProfilePicUrl}
                     />
                 )}
-                <Profile
-                    // Passing down props:
-                    id={this.state.id}
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    profilePicUrl={this.state.profilePicUrl}
-                    bio={this.state.bio}
-                    // Passing down methods as standard functions (binding needed):
-                />
+                <BrowserRouter>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Profile
+                                // Passing down props:
+                                id={this.state.id}
+                                firstName={this.state.firstName}
+                                lastName={this.state.lastName}
+                                profilePicUrl={this.state.profilePicUrl}
+                                bio={this.state.bio}
+                                // Passing down methods as standard functions (binding needed):
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                </BrowserRouter>
             </div>
         );
     }
