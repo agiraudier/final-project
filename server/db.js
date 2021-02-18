@@ -85,3 +85,18 @@ module.exports.editBio = (userId, bio) => {
     const params = [userId, bio];
     return db.query(q, params);
 };
+
+////FETCH 3 most recent users//////////
+
+module.exports.fetchUsers = () => {
+    const q = `SELECT * FROM users ORDER BY id DESC LIMIT 3;`;
+    return db.query(q);
+};
+
+////SEARCH users///////////////////////
+
+module.exports.searchUsers = (val) => {
+    return db.query(`SELECT name FROM ACTORS WHERE name ILIKE $1;`, [
+        val + "%",
+    ]);
+};

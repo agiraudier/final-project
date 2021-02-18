@@ -21,7 +21,7 @@ export class OtherProfile extends Component {
         // If we are trying to view our own profile,
         // we should make sure to send the user back to the '/' route
         axios
-            .get(`/otherProfile/${this.props.match.params.id}`)
+            .get(`/api/otherProfile/${this.props.match.params.id}`)
             .then((res) => {
                 //console.log("axios otherprofile: ", res);
                 this.setState({

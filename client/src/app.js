@@ -5,6 +5,7 @@ import { Uploader } from "./uploader.js";
 import { Profile } from "./profile.js";
 import { ProfilePic } from "./profilePic.js";
 import { OtherProfile } from "./otherProfile.js";
+import { SearchUsers } from "./findPeople.js";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export class App extends Component {
@@ -98,6 +99,16 @@ export class App extends Component {
                         path="/user/:id"
                         render={(props) => (
                             <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/users"
+                        render={(props) => (
+                            <SearchUsers
                                 key={props.match.url}
                                 match={props.match}
                                 history={props.history}

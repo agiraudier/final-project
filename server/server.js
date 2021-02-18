@@ -248,7 +248,7 @@ app.post("/bio", (req, res) => {
         });
 });
 
-app.get("/otherProfile/:id", (req, res) => {
+app.get("/api/otherProfile/:id", (req, res) => {
     //console.log("req session userId: ", req.session.userId);
     //console.log("req params id: ", req.params.id);
     const id = req.params.id;
@@ -265,6 +265,31 @@ app.get("/otherProfile/:id", (req, res) => {
             console.log("this is err getting user data: ", err);
             res.json({ success: false });
         });
+});
+
+app.get("/api/find/:val?", (req, res) => {
+    //console.log("req.params: ", req.params);
+    let val = req.params.val;
+    if (!val) {
+        db.fetchUsers()
+            .then(({ rows }) => {
+                //console.log("rows in find users: ", rows);
+                res.json({ success: true, rows: rows });
+            })
+            .catch((err) => {
+                console.log("this is the err in fetchUsers: ", err);
+                res.json({ success: false });
+            });
+    } else {
+        db.searchUsers(val)
+            .then(({ rows }) => {
+                res.json({ success: true, rows: rows });
+            })
+            .catch((err) => {
+                console.log("this is the err in searchUsers: ", err);
+                res.json({ success: false });
+            });
+    }
 });
 
 //DONT MOVE THIS ROUTE///////////////////////////////////////////////
