@@ -96,7 +96,15 @@ module.exports.fetchUsers = () => {
 ////SEARCH users///////////////////////
 
 module.exports.searchUsers = (val) => {
-    return db.query(`SELECT name FROM ACTORS WHERE name ILIKE $1;`, [
-        val + "%",
-    ]);
+    return db.query(`SELECT * FROM USERS WHERE first ILIKE $1;`, [val + "%"]);
+};
+
+////CHECK friendship///////////////////
+
+module.exports.checkFriendship = (searchedUser, userId) => {
+    const q = `SELECT * FROM friendships
+    WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (recipient_id = $2 AND sender_id = $1)`;
+    const params = [searchedUser, userId];
+    return db.query(q, params);
 };

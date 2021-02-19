@@ -6,6 +6,7 @@ import { Profile } from "./profile.js";
 import { ProfilePic } from "./profilePic.js";
 import { OtherProfile } from "./otherProfile.js";
 import { SearchUsers } from "./findPeople.js";
+import { FriendshipButton } from "./friendshipButton.js";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export class App extends Component {

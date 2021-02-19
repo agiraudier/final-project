@@ -292,6 +292,39 @@ app.get("/api/find/:val?", (req, res) => {
     }
 });
 
+app.get("/api/friends/:id", (req, res) => {
+    //console.log("req.params.id: ", req.params.id);
+    const searchedUser = req.params.id;
+    const user = req.session.userId;
+
+    db.checkFriendship(searchedUser, user)
+        .then(({ rows }) => {
+            if (!rows.length) {
+                res.json({
+                    button: "Request friendship",
+                });
+            } else if (rows[0].accepted) {
+                res.json({
+                    button: "Cancel friendship",
+                });
+            } else if (!rows[0].accepted) {
+                if (rows[0].recipient_id == user) {
+                    res.json({
+                        button: "Accept friendship",
+                    });
+                } else if (rows[0].sender_id == user) {
+                    res.json({
+                        button: "Cancel friendship request",
+                    });
+                }
+            }
+        })
+        .catch((err) => {
+            console.log("this is the err in checkFriendship: ", err);
+            res.json({ success: false });
+        });
+});
+
 //DONT MOVE THIS ROUTE///////////////////////////////////////////////
 app.get("*", (req, res) => {
     if (!req.session.userId) {
