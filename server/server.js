@@ -325,6 +325,71 @@ app.get("/api/friends/:id", (req, res) => {
         });
 });
 
+app.post("/api/friends/:id", (req, res) => {
+    const searchedUser = req.params.id;
+    const user = req.session.userId;
+    const button = req.body.button;
+
+    if (button == "Request friendship") {
+        db.requestFriendship(searchedUser, user)
+            .then(({ rows }) => {
+                res.json({ button: "Cancel friendship request", rows: rows });
+            })
+            .catch((err) => {
+                console.log("this is the err in requestFriendship: ", err);
+                res.json({ success: false });
+            });
+    } else if (button == "Cancel friendship") {
+        db.cancelFriendship(searchedUser, user)
+            .then(({ rows }) => {
+                res.json({ button: "Request friendship", rows: rows });
+            })
+            .catch((err) => {
+                console.log("this is the err in cancelFriendship: ", err);
+                res.json({ success: false });
+            });
+    } else if (button == "Accept friendship") {
+        db.acceptFriendship(searchedUser, user)
+            .then(({ rows }) => {
+                res.json({ button: "Cancel friendship", rows: rows });
+            })
+            .catch((err) => {
+                console.log("this is the err in acceptFriendship: ", err);
+                res.json({ success: false });
+            });
+    } else if (button == "Cancel friendship request") {
+        db.cancelFriendship(searchedUser, user)
+            .then(({ rows }) => {
+                res.json({ button: "Request friendship", rows: rows });
+            })
+            .catch((err) => {
+                console.log(
+                    "this is the err in cancelFriendship/request: ",
+                    err
+                );
+                res.json({ success: false });
+            });
+    }
+});
+
+app.get("/api/get-friends", (req, res) => {
+    const user = req.session.userId;
+
+    db.getFriends(user)
+        .then(({ rows }) => {
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("this is the err in getFriends: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.redirect("/welcome");
+});
+
 //DONT MOVE THIS ROUTE///////////////////////////////////////////////
 app.get("*", (req, res) => {
     if (!req.session.userId) {
