@@ -372,12 +372,13 @@ app.post("/api/friends/:id", (req, res) => {
     }
 });
 
-app.get("/api/get-friends", (req, res) => {
+app.get("/get-friends", (req, res) => {
     const user = req.session.userId;
 
     db.getFriends(user)
         .then(({ rows }) => {
-            res.json({ success: true, rows: rows });
+            console.log("rows get friends: ", rows);
+            res.json({ success: true, rows: rows, userId: user });
         })
         .catch((err) => {
             console.log("this is the err in getFriends: ", err);

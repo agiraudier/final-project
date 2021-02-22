@@ -142,10 +142,11 @@ module.exports.acceptFriendship = (searchedUser, userId) => {
 /////GET total friends////////////////////
 
 module.exports.getFriends = (userId) => {
-    const q = `SELECT users.id, first, last, profile_pic_url, accepted
+    const q = `SELECT users.id, first, last, profile_pic_url, accepted, sender_id, recipient_id
     FROM friendships
     JOIN users
     ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+    OR (accepted = false AND recipient_id = users.id AND sender_id = $1)
     OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
     const params = [userId];
