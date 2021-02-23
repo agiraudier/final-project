@@ -30,7 +30,7 @@ export async function getFriends() {
 
 export async function acceptFriend(id) {
     try {
-        const { data } = await axios.post("/api/friends");
+        const { data } = await axios.post("/api/friends/");
         console.log("this data acceptFriend: ", data);
 
         return {

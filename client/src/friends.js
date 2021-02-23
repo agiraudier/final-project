@@ -6,11 +6,15 @@ import { getFriends, acceptFriend, unfriend } from "./actions.js";
 
 export function Friends() {
     const dispatch = useDispatch();
+
     const wannabes = useSelector((state) => {
-        state.users && state.users.filter((friend) => friend.accepted == false);
+        return (
+            state.users &&
+            state.users.filter((friend) => friend.accepted == false)
+        );
     });
     const friends = useSelector((state) => {
-        state.users && state.users.filter((friend) => friend.accepted);
+        return state.users && state.users.filter((friend) => friend.accepted);
     });
 
     useEffect(() => {
