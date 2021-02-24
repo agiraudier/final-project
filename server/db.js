@@ -156,11 +156,11 @@ module.exports.getFriends = (userId) => {
 ////SELECT 10 last messages////////////////
 
 module.exports.selectMessages = () => {
-    const q = `SELECT messages.sender_id, messages.text, messages.timestamp, messages.id, first, last, profile_pic_url
+    const q = `SELECT messages.sender_id, messages.text, messages.timestamp, messages.id, users.first, last, profile_pic_url
     FROM messages
     JOIN users
     ON sender_id = users.id
-    ORDER BY messages.id DESC LIMIT 10 `;
+    ORDER BY messages.timestamp DESC LIMIT 10 `;
     return db.query(q);
 };
 

@@ -6,35 +6,18 @@ import { socket } from "./socket.js";
 
 export function Chat() {
     const textRef = useRef();
-    const [text, setText] = useState("");
+    //const [text, setText] = useState("");
+    const [inputField, setInputField] = useState("");
 
     const messages = useSelector((state) => state.messages);
 
     const sendMessage = (e) => {
         if (e.key === "Enter" && textRef.current.value != 0) {
-            socket.emit("messages", text);
+            socket.emit("messages", inputField);
             console.log("target value: ", e.target.value);
             e.target.value = "";
         }
     };
-    /*
-    const changeMessage = (e) => {
-        textRef.current.value = e.target.value;
-    };
-
-    const sendMessage = () => {
-        console.log("current value: ", textRef.current.value);
-        if (textRef.current.value != 0) {
-            socket.emit("messages", textRef.current.value);
-            textRef.current.value = "";
-        }
-    };
-    const enter = (e) => {
-        if (e.key === "enter") {
-            e.preventDefault();
-            sendMessage();
-        }
-    };*/
 
     return (
         <div>
@@ -53,15 +36,14 @@ export function Chat() {
             <textarea
                 ref={textRef}
                 name="message"
+                value={inputField}
                 placerholder="Write here"
+                onChange={(e) => {
+                    setInputField(e.target.value);
+                }}
                 onKeyDown={(e) => sendMessage(e)}
             ></textarea>
-            <button
-                onChange={(e) => setText(e.target.value)}
-                onClick={() => sendMessage()}
-            >
-                Send
-            </button>
+            <button onClick={(e) => sendMessage(e)}>Send</button>
         </div>
     );
 }

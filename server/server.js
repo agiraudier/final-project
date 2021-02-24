@@ -456,5 +456,6 @@ io.on("connect", async function (socket) {
 
     socket.on("disconnect", () => {
         console.log(`Socket with id: ${socket.id} just DISCONNECTED`);
+        return socket.disconnect(true);
     });
 });
