@@ -30,7 +30,9 @@ export async function getFriends() {
 
 export async function acceptFriend(id) {
     try {
-        const { data } = await axios.post("/api/friends/");
+        const { data } = await axios.post(`/api/friends/${id}`, {
+            button: "Accept friendship",
+        });
         console.log("this data acceptFriend: ", data);
 
         return {
@@ -59,7 +61,9 @@ export async function acceptFriend(id) {
 
 export async function unfriend(id) {
     try {
-        const { data } = await axios.post(`/api/friends/`);
+        const { data } = await axios.post(`/api/friends/${id}`, {
+            button: "Cancel friendship",
+        });
         console.log("this data unfriend: ", data);
         return {
             type: "END_FRIENDS",
@@ -67,7 +71,7 @@ export async function unfriend(id) {
             id: id,
         };
     } catch (err) {
-        console.log("err in axios acceptFriend: ", err);
+        console.log("err in axios unFriend: ", err);
     }
     /*
     axios
@@ -83,4 +87,26 @@ export async function unfriend(id) {
         .catch((err) => {
             console.log("err in axios unfriend: ", err);
         });*/
+}
+
+export async function recentMessages(msgs) {
+    try {
+        return {
+            type: "RECENT_MESSAGES",
+            data: msgs,
+        };
+    } catch (err) {
+        console.log("err in actions recentMessages: ", err);
+    }
+}
+
+export async function newMessage(message) {
+    try {
+        return {
+            type: "NEW_MESSAGE",
+            data: message,
+        };
+    } catch (err) {
+        console.log("err in actions newMessage: ", err);
+    }
 }

@@ -4,11 +4,11 @@ export function ProfilePic({
     profilePicUrl,
     toggleUploader,
 }) {
-    console.log(
+    /*console.log(
         "first name and last name from profilePic: ",
         firstName,
         lastName
-    );
+    );*/
 
     return (
         <div onClick={toggleUploader}>

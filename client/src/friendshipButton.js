@@ -12,7 +12,6 @@ export function FriendshipButton(props) {
             .then(({ data }) => {
                 console.log("data in axios Friendshipbutton: ", data);
                 if (!abort) {
-                    console.log(data.rows);
                     setButton(data.button);
                 } else {
                     abort = true;

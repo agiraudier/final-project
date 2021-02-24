@@ -26,3 +26,10 @@ sender_id INT REFERENCES users(id) NOT NULL,
 recipient_id INT REFERENCES users(id) NOT NULL,
 accepted BOOLEAN DEFAULT false
 );
+
+CREATE TABLE messages(
+id SERIAL PRIMARY KEY,
+sender_id INT REFERENCES users(id) NOT NULL,
+text VARCHAR NOT NULL, 
+timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

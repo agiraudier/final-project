@@ -152,3 +152,23 @@ module.exports.getFriends = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+////SELECT 10 last messages////////////////
+
+module.exports.selectMessages = () => {
+    const q = `SELECT messages.sender_id, messages.text, messages.timestamp, messages.id, first, last, profile_pic_url
+    FROM messages
+    JOIN users
+    ON sender_id = users.id
+    ORDER BY messages.id DESC LIMIT 10 `;
+    return db.query(q);
+};
+
+////ADD new message////////////////////////
+
+module.exports.addMessage = (senderId, text) => {
+    const q = `INSERT INTO messages (sender_id, text)
+    VALUES ($1, $2) RETURNING *`;
+    const params = [senderId, text];
+    return db.query(q, params);
+};

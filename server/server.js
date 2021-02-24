@@ -12,6 +12,13 @@ const { uploader } = require("./uploads");
 const s3 = require("./s3");
 const { s3Url } = require("./config.json");
 
+const server = require("http").Server(app);
+
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
+
 let cookie_sec;
 
 if (process.env.cookie_secret) {
@@ -32,12 +39,23 @@ app.use(
     })
 );
 
-app.use(
+/*app.use(
     cookieSession({
         secret: cookie_sec,
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
-);
+);*/
+
+const cookieSessionMiddleware = cookieSession({
+    secret: cookie_sec,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 
 app.use(csurf());
 
@@ -401,6 +419,42 @@ app.get("*", (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || 3001, function () {
+/*app.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});*/
+
+server.listen(process.env.PORT || 3001, function () {
+    console.log("I'm listening.");
+});
+
+io.on("connect", async function (socket) {
+    const userId = socket.request.session.userId;
+
+    if (!userId) {
+        return socket.disconnect(true);
+    }
+
+    try {
+        const { rows } = await db.selectMessages();
+        //console.log("rows in chatMessages: ", rows);
+        socket.emit("chatMessages", rows.reverse());
+    } catch (err) {
+        console.log("this is the err in selectMessages: ", err);
+    }
+
+    socket.on("messages", async (data) => {
+        console.log("message: ", data);
+        try {
+            const message = await db.addMessage(userId, data);
+
+            console.log("rows in message: ", message.rows[0]);
+            io.emit("messages", message.rows[0]);
+        } catch (err) {
+            console.log("this is the err in addMessage: ", err);
+        }
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`Socket with id: ${socket.id} just DISCONNECTED`);
+    });
 });

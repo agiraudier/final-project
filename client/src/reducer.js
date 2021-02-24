@@ -37,5 +37,19 @@ export function reducer(state = {}, action) {
         };
     }
 
+    if (action.type == "RECENT_MESSAGES") {
+        state = {
+            ...state,
+            messages: action.data,
+        };
+    }
+
+    if (action.type == "NEW_MESSAGE") {
+        state = {
+            ...state,
+            messages: [...state.messages, action.data],
+        };
+    }
+
     return state;
 }
