@@ -48,24 +48,43 @@ export default class Login extends React.Component {
     render() {
         return (
             <div>
-                {this.state.error && <p>Something broke :(</p>}
-                <h1>Login</h1>
+                {this.state.error && (
+                    <p className="errorLog">
+                        Something went wrong. Please try again.
+                    </p>
+                )}
+                <h1 className="title">Log in</h1>
                 {/* strategy #2 for binding: arrow functions! */}
                 <input
+                    className="regloginput"
                     onChange={(e) => this.handleChange(e)}
                     name="email"
                     type="text"
                     placeholder="email"
                 />
+                <br></br>
                 <input
+                    className="regloginput"
                     onChange={(e) => this.handleChange(e)}
                     name="password"
                     type="password"
                     placeholder="password"
                 />
-                <button onClick={() => this.handleClick()}>Login</button>
-                <Link to="/reset">Forgot password?</Link>
-                <Link to="/">Click here to create an account!</Link>
+                <br></br>
+                <button className="button" onClick={() => this.handleClick()}>
+                    SUBMIT
+                </button>
+                <br></br>
+                <div className="linkIntro">
+                    <Link to="/reset">Forgot password?</Link>
+                </div>
+                <br></br>
+                <div className="linkIntro">
+                    <Link to="/">
+                        You don't have an account yet? <br></br> Click here to
+                        sign in!
+                    </Link>
+                </div>
             </div>
         );
     }

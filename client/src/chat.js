@@ -20,19 +20,24 @@ export function Chat() {
     };
 
     return (
-        <div>
-            <h3>Chat</h3>
-            {messages &&
-                messages.map((text) => (
-                    <div key={text.id}>
-                        <img src={text.profile_pic_url}></img>
-                        <p>
-                            {text.first} {text.last} on {text.timestamp}
-                        </p>
+        <div className="chat">
+            <h3 className="chatTitle">Chat</h3>
+            <div className="messages">
+                {messages &&
+                    messages.map((text) => (
+                        <div key={text.id}>
+                            <img
+                                className="chatPic"
+                                src={text.profile_pic_url || "/default.png"}
+                            ></img>
+                            <p>
+                                {text.first} {text.last} on {text.timestamp}
+                            </p>
 
-                        <p>{text.text}</p>
-                    </div>
-                ))}
+                            <p>{text.text}</p>
+                        </div>
+                    ))}
+            </div>
             <textarea
                 ref={textRef}
                 name="message"

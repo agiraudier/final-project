@@ -73,35 +73,54 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div>
-                {this.state.error && <p>Something broke :(</p>}
-                <h1>Registration</h1>
+                {this.state.error && (
+                    <p className="errorLog">
+                        Something went wrong. Please try again.
+                    </p>
+                )}
+                <h1 className="title">SIGN IN</h1>
                 {/* strategy #2 for binding: arrow functions! */}
                 <input
+                    className="regloginput"
                     onChange={(e) => this.handleChange(e)}
                     name="first"
                     type="text"
-                    placeholder="first"
+                    placeholder="First name"
                 />
+                <br></br>
                 <input
+                    className="regloginput"
                     onChange={(e) => this.handleChange(e)}
                     name="last"
                     type="text"
-                    placeholder="last"
+                    placeholder="Last name"
                 />
+                <br></br>
                 <input
+                    className="regloginput"
                     onChange={(e) => this.handleChange(e)}
                     name="email"
                     type="text"
-                    placeholder="email"
+                    placeholder="Email"
                 />
+                <br></br>
                 <input
+                    className="regloginput"
                     onChange={(e) => this.handleChange(e)}
                     name="password"
                     type="password"
-                    placeholder="password"
+                    placeholder="Password"
                 />
-                <button onClick={() => this.handleClick()}>submit</button>
-                <Link to="/login">You already have an account? Log in.</Link>
+                <br></br>
+                <button className="button" onClick={() => this.handleClick()}>
+                    SUBMIT
+                </button>
+                <br></br>
+                <div className="linkIntro">
+                    <Link to="/login">
+                        You already have an account? <br></br>Log in.
+                    </Link>
+                </div>
             </div>
         );
     }

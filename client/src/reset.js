@@ -78,31 +78,46 @@ export default class Reset extends React.Component {
             return (
                 <div>
                     <input
+                        className="regloginput"
                         onChange={(e) => this.handleChange(e)}
                         name="email"
                         type="text"
                         placeholder="email"
                     />
-                    <button onClick={() => this.handleClick()}>Next</button>
+                    <br></br>
+                    <button
+                        className="button"
+                        onClick={() => this.handleClick()}
+                    >
+                        NEXT
+                    </button>
                 </div>
             );
         } else if (this.state.renderView === 2) {
             return (
                 <div>
+                    <p></p>
                     <input
+                        className="regloginput"
                         onChange={(e) => this.handleChange(e)}
                         name="password"
                         type="password"
                         placeholder="New Password"
                     />
+                    <br></br>
                     <input
+                        className="regloginput"
                         onChange={(e) => this.handleChange(e)}
                         name="code"
                         type="text"
                         placeholder="code"
                     />
-                    <button onClick={() => this.handleVerification()}>
-                        Next
+                    <br></br>
+                    <button
+                        className="button"
+                        onClick={() => this.handleVerification()}
+                    >
+                        NEXT
                     </button>
                 </div>
             );

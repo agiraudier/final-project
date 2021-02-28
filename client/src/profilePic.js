@@ -3,6 +3,7 @@ export function ProfilePic({
     lastName,
     profilePicUrl,
     toggleUploader,
+    size = "",
 }) {
     /*console.log(
         "first name and last name from profilePic: ",

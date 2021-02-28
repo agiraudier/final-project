@@ -1,6 +1,6 @@
 import { Component } from "react";
 import axios from "./axios.js";
-import { Logo } from "./logo.js";
+
 import { Uploader } from "./uploader.js";
 import { Profile } from "./profile.js";
 import { ProfilePic } from "./profilePic.js";
@@ -9,6 +9,8 @@ import { SearchUsers } from "./findPeople.js";
 import { Friends } from "./friends.js";
 import { Chat } from "./chat.js";
 import { BrowserRouter, Route } from "react-router-dom";
+import { Header } from "./header.js";
+import { Side } from "./side.js";
 
 export class App extends Component {
     constructor(props) {
@@ -66,22 +68,29 @@ export class App extends Component {
     render() {
         return (
             <div className={"app"}>
-                <Logo />
-                <ProfilePic
-                    id={this.state.id}
-                    firstName={this.state.firstName}
-                    lastName={this.state.lastName}
-                    profilePicUrl={this.state.profilePicUrl}
-                    toggleUploader={this.toggleUploader}
-                />
-                {/*Conditionally render the Uploader: */}
-                {this.state.uploaderVisible && (
-                    <Uploader
-                        // Passing down methods with arrow function (no binding needed):
-                        setProfilePicUrl={this.setProfilePicUrl}
-                    />
-                )}
                 <BrowserRouter>
+                    <Header />
+                    <Side
+                        firstName={this.state.firstName}
+                        lastName={this.state.lastName}
+                    />
+                    <div className="fixedImg">
+                        {/* <ProfilePic
+                            id={this.state.id}
+                            firstName={this.state.firstName}
+                            lastName={this.state.lastName}
+                            profilePicUrl={this.state.profilePicUrl}
+                            toggleUploader={this.toggleUploader}
+                            bio={this.state.bio}
+                        />
+                        {/*Conditionally render the Uploader: */}
+                        {/*{this.state.uploaderVisible && (
+                            <Uploader
+                                // Passing down methods with arrow function (no binding needed):
+                                setProfilePicUrl={this.setProfilePicUrl}
+                            />
+                        )}*/}
+                    </div>
                     <Route
                         exact
                         path="/"

@@ -38,14 +38,16 @@ export function SearchUsers() {
 
     return (
         <div>
-            <h1>Search for other people</h1>
+            <h1 className="searchTitle">FIND PEOPLE...</h1>
             <input
+                className="inputSearch"
                 name="findPeople"
                 type="text"
                 placeholder="Search..."
                 onChange={(e) => setUser(e.target.value)}
                 autoComplete="off"
             />
+
             {users.map((user, index) => {
                 return (
                     <div key={index}>
