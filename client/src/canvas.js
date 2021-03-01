@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
+import InputColor from "react-input-color";
 
 export function Canvas() {
-    //const [color, setColor] = useState({});
+    const [color, setColor] = useState({});
     const [elemType, setElemType] = useState("line");
     const [isDrawing, setIsDrawing] = useState(false);
     const [firstPoint, setFirstPoint] = useState({ x: null, y: null });
@@ -12,7 +13,7 @@ export function Canvas() {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d");
         contextRef.current = context;
-        context.strokeStyle = "black";
+        context.strokeStyle = color;
         context.lineWidth = 2;
     }, []);
 
@@ -25,7 +26,7 @@ export function Canvas() {
         if (elemType == "free") {
             const x = nativeEvent.offsetX;
             const y = nativeEvent.offsetY;
-            console.log("handlemouseDown free: ", x, y);
+            //console.log("handlemouseDown free: ", x, y);
 
             contextRef.current.beginPath();
             contextRef.current.moveTo(x, y);
@@ -36,9 +37,12 @@ export function Canvas() {
             contextRef.current.moveTo(x, y);
             //contextRef.current.lineTo(x, y);
 
-            console.log("handlemousedown line: ", x, y);
+            // console.log("handlemousedown line: ", x, y);
         } else if (elemType == "rectangle") {
-            console.log("handle mouse down rectangle: ");
+            console.log("handle mouse down rectangle: ", firstPoint);
+        } else if (elemType == "circle") {
+            console.log("handle mouse down circle: ", firstPoint);
+            contextRef.current.beginPath();
         }
     };
 
@@ -58,6 +62,8 @@ export function Canvas() {
             console.log(x, y);
         } else if (elemType == "rectangle") {
             console.log("moving rectangle");
+        } else if (elemType == "circle") {
+            console.log("moving circle");
         }
     };
 
@@ -103,6 +109,23 @@ export function Canvas() {
                 x: null,
                 y: null,
             });
+        } else if (elemType == "circle") {
+            const x1 = firstPoint.x;
+            const y1 = firstPoint.y;
+            const x2 = nativeEvent.offsetX;
+
+            const r = Math.abs(x1 - x2);
+
+            console.log("handlemouse up circle current: ", x1, y1, r);
+
+            contextRef.current.arc(x1, y1, r, 0, 2 * Math.PI);
+            contextRef.current.stroke();
+            contextRef.current.closePath();
+
+            setFirstPoint({
+                x: null,
+                y: null,
+            });
         }
     };
 
@@ -119,7 +142,6 @@ export function Canvas() {
             //contextRef.current.closePath();
 
             contextRef.current.closePath();
-            contextRef.current.stroke();
         }
     };
 
@@ -155,12 +177,10 @@ export function Canvas() {
                     onChange={() => setElemType("circle")}
                 ></input>
                 <label htmlFor="circle">Circle</label>
-                <input
-                    type="color"
-                    id="color"
-                    checked={elemType == "color"}
-                    onChange={() => setElemType("color")}
-                ></input>
+                <InputColor
+                    initialValue="#000000"
+                    onChange={() => setColor()}
+                ></InputColor>
             </div>
             <canvas
                 id="canvas"
