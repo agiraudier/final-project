@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS reset_codes;
-DROP TABLE IF EXISTS friendships;
+DROP TABLE IF EXISTS content;
 
 CREATE TABLE users(
       id SERIAL PRIMARY KEY,
@@ -32,4 +30,15 @@ id SERIAL PRIMARY KEY,
 sender_id INT REFERENCES users(id) NOT NULL,
 text VARCHAR NOT NULL, 
 timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE content(
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES users(id) NOT NULL,
+    canvas_url TEXT NULL,
+    media_url VARCHAR NULL,
+    kind VARCHAR NOT NULL, 
+    title VARCHAR NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

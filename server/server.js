@@ -404,6 +404,28 @@ app.get("/get-friends", (req, res) => {
         });
 });
 
+app.post("/canvas", (req, res) => {
+    const id = req.session.userId;
+    const url = req.body.url;
+    const title = req.body.title;
+
+    //console.log("req.body", req.body);
+    console.log(id);
+
+    db.uploadCanvas(id, url, "canvas", "just whatever")
+        .then(({ rows }) => {
+            console.log("rows[0] canvas drawing: ", rows[0].url);
+            res.json({ success: true, data: rows[0].url });
+        })
+        .catch((err) => {
+            console.log("this is the err in uploadCanvas: ", err);
+        });
+    /* } else {
+        console.log("no input in canvas or canvas title");
+        res.json({ success: false });
+    }*/
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/welcome");

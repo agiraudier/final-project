@@ -94,7 +94,7 @@ export class App extends Component {
                     </div>
                     <Route
                         exact
-                        path="/"
+                        path="/profile"
                         render={() => (
                             <Profile
                                 // Passing down props:

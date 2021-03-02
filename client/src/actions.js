@@ -110,3 +110,18 @@ export async function newMessage(message) {
         console.log("err in actions newMessage: ", err);
     }
 }
+
+export async function submitCanvas(canvasImage) {
+    try {
+        const { data } = await axios.post("/canvas", {
+            url: canvasImage,
+        });
+        console.log("this data submitCanvas actions: ", data);
+
+        return {
+            type: "SUBMIT_CANVAS",
+        };
+    } catch (err) {
+        console.log("err in axios submitCanvas actions: ", err);
+    }
+}

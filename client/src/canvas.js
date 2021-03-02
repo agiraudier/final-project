@@ -1,19 +1,26 @@
 import { useState, useRef, useEffect } from "react";
+import axios from "./axios.js";
 import InputColor from "react-input-color";
+import { submitCanvas } from "./actions.js";
 
 export function Canvas() {
     const [color, setColor] = useState({});
-    const [elemType, setElemType] = useState("line");
+    const [elemType, setElemType] = useState("free");
     const [isDrawing, setIsDrawing] = useState(false);
     const [firstPoint, setFirstPoint] = useState({ x: null, y: null });
+
+    //const [redoTrack, setRedo] = useState([]);
+    //const [undoTrack, setUndo] = useState([]);
+
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
+    const titleRef = useRef(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d");
         contextRef.current = context;
-        context.strokeStyle = color;
+        context.strokeStyle = color.hex;
         context.lineWidth = 2;
     }, []);
 
@@ -23,6 +30,7 @@ export function Canvas() {
             x: nativeEvent.offsetX,
             y: nativeEvent.offsetY,
         });
+
         if (elemType == "free") {
             const x = nativeEvent.offsetX;
             const y = nativeEvent.offsetY;
@@ -145,6 +153,11 @@ export function Canvas() {
         }
     };
 
+    const onSubmitCanvas = () => {
+        const canvasImage = canvasRef.current.toDataURL();
+        submitCanvas(canvasImage);
+    };
+
     return (
         <div>
             <div>
@@ -177,21 +190,40 @@ export function Canvas() {
                     onChange={() => setElemType("circle")}
                 ></input>
                 <label htmlFor="circle">Circle</label>
+                <input
+                    type="radio"
+                    id="selection"
+                    checked={elemType == "selection"}
+                    onChange={() => setElemType("selection")}
+                ></input>
+                <label htmlFor="circle">Selection</label>
                 <InputColor
                     initialValue="#000000"
-                    onChange={() => setColor()}
+                    onChange={setColor}
                 ></InputColor>
+                <input type="range" min="1" max="50"></input>
             </div>
-            <canvas
-                id="canvas"
-                width="600"
-                height="600"
-                ref={canvasRef}
-                onMouseDown={(e) => handleMouseDown(e)}
-                onMouseMove={(e) => handleMouseMove(e)}
-                onMouseUp={(e) => handleMouseUp(e)}
-                onMouseOut={(e) => handleMouseOut(e)}
-            ></canvas>
+            <div>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="title"
+                    ref={titleRef}
+                ></input>
+                <input type="hidden" name="canvas" id="inputCanvas" />
+                <canvas
+                    id="canvas"
+                    width="600"
+                    height="600"
+                    ref={canvasRef}
+                    onMouseDown={(e) => handleMouseDown(e)}
+                    onMouseMove={(e) => handleMouseMove(e)}
+                    onMouseUp={(e) => handleMouseUp(e)}
+                    onMouseOut={(e) => handleMouseOut(e)}
+                ></canvas>
+
+                <button onClick={() => onSubmitCanvas()}>SUBMIT</button>
+            </div>
         </div>
     );
 }
