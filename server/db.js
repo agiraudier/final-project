@@ -181,3 +181,20 @@ module.exports.uploadCanvas = (userId, url, kind, title) => {
     const params = [userId, url, kind, title];
     return db.query(q, params);
 };
+
+////UPLOAD other media////////////////////
+
+module.exports.uploadMedia = (userId, url, kind, title) => {
+    const q = `INSERT INTO content (user_id, media_url, kind, title)
+    VALUES ($1, $2, $3, $4) RETURNING *`;
+    const params = [userId, url, kind, title];
+    return db.query(q, params);
+};
+
+////GET total media///////////////////////
+
+module.exports.getTotalMedia = () => {
+    const q = `SELECT * FROM content
+    ORDER BY created_at DESC LIMIT 9`;
+    return db.query(q);
+};

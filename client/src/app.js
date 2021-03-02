@@ -12,6 +12,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import { Header } from "./header.js";
 import { Side } from "./side.js";
 import { Canvas } from "./canvas.js";
+import { Feed } from "./feed.js";
 
 export class App extends Component {
     constructor(props) {
@@ -130,6 +131,7 @@ export class App extends Component {
                     <Route path="/friendlist" render={() => <Friends />} />
                     <Route path="/chat" render={() => <Chat />} />
                     <Route path="/canvas" render={() => <Canvas />} />
+                    <Route path="/myfeed" render={() => <Feed />} />
                 </BrowserRouter>
             </div>
         );

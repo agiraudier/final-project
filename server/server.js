@@ -426,6 +426,17 @@ app.post("/canvas", (req, res) => {
     }*/
 });
 
+app.get("/feed", (req, res) => {
+    db.getTotalMedia()
+        .then(({ rows }) => {
+            console.log("rows in getTotalMedia: ", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("this is the err in getTotalMedia: ", err);
+        });
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/welcome");
