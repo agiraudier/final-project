@@ -111,10 +111,11 @@ export async function newMessage(message) {
     }
 }
 
-export async function submitCanvas(canvasImage) {
+export async function submitCanvas(canvasImage, title) {
     try {
         const { data } = await axios.post("/canvas", {
             url: canvasImage,
+            title: title,
         });
         console.log("this data submitCanvas actions: ", data);
 

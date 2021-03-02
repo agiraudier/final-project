@@ -412,7 +412,7 @@ app.post("/canvas", (req, res) => {
     //console.log("req.body", req.body);
     console.log(id);
 
-    db.uploadCanvas(id, url, "canvas", "just whatever")
+    db.uploadCanvas(id, url, "canvas", title)
         .then(({ rows }) => {
             console.log("rows[0] canvas drawing: ", rows[0].url);
             res.json({ success: true, data: rows[0].url });

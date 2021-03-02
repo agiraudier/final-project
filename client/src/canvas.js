@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import axios from "./axios.js";
+//import axios from "./axios.js";
 import InputColor from "react-input-color";
 import { submitCanvas } from "./actions.js";
 
@@ -155,7 +155,8 @@ export function Canvas() {
 
     const onSubmitCanvas = () => {
         const canvasImage = canvasRef.current.toDataURL();
-        submitCanvas(canvasImage);
+        const title = titleRef.current.value;
+        submitCanvas(canvasImage, title);
     };
 
     return (
