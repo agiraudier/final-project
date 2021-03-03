@@ -472,6 +472,23 @@ app.get("/images", (req, res) => {
         });
 });
 
+app.get("/imagesOthers/:id", (req, res) => {
+    const id = req.params.id;
+
+    db.getParticularMedia(id)
+        .then(({ rows }) => {
+            console.log("rows in getParticularMedia otherprofile: ", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log(
+                "this is the err in getParticularMedia otherprofile: ",
+                err
+            );
+            res.json({ success: false });
+        });
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/welcome");

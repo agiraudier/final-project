@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { FriendshipButton } from "./friendshipButton.js";
+import { ImagesOthers } from "./imagesOthers.js";
 import axios from "./axios";
 
 export class OtherProfile extends Component {
@@ -49,12 +50,15 @@ export class OtherProfile extends Component {
         if (this.state.id) {
             return (
                 <div>
-                    <img src={`${this.state.profilePicUrl}`}></img>
+                    <img
+                        src={`${this.state.profilePicUrl}` || `./default.png`}
+                    ></img>
                     <h2>
                         {this.state.firstName} {this.state.lastName}
                     </h2>
                     <h4>{this.state.bio}</h4>
                     <FriendshipButton id={this.state.id} />
+                    <ImagesOthers id={this.state.id}></ImagesOthers>
                 </div>
             );
         }
