@@ -1,5 +1,6 @@
 import { ProfilePic } from "./profilePic";
 import { BioEditor } from "./bioEditor";
+import { Images } from "./images.js";
 //import { Uploader } from "./uploader";
 
 export function Profile(props) {
@@ -17,6 +18,7 @@ export function Profile(props) {
             />
 
             <BioEditor bio={props.bio} />
+            <Images id={props.id}></Images>
         </div>
     );
 }

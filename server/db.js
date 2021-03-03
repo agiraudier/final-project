@@ -198,3 +198,14 @@ module.exports.getTotalMedia = () => {
     ORDER BY created_at DESC LIMIT 9`;
     return db.query(q);
 };
+
+////GET particular media//////////////////
+
+module.exports.getParticularMedia = (userId) => {
+    const q = `SELECT * FROM content
+    WHERE user_id = $1
+    ORDER BY created_at DESC LIMIT 6`;
+
+    const params = [userId];
+    return db.query(q, params);
+};

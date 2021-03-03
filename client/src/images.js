@@ -1,13 +1,12 @@
 import axios from "./axios.js";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
-export function Feed() {
+export function Images() {
     const [images, setImages] = useState();
 
     useEffect(() => {
         axios
-            .get("/feed")
+            .get("/images")
             .then(({ data }) => {
                 console.log("here");
                 //data.rows.forEach((row) => console.log(row.title));
@@ -21,14 +20,6 @@ export function Feed() {
 
     return (
         <div>
-            <div>
-                <input type="text" name="title" placeholder="Title..."></input>
-                <input type="file" name="file"></input>
-                <button>Submit</button>
-            </div>
-            <div>
-                <h3>Latest...</h3>
-            </div>
             {images &&
                 images.map((image, index) => {
                     return (
@@ -36,12 +27,8 @@ export function Feed() {
                             <img
                                 src={image.canvas_url || image.media_url}
                             ></img>
-                            <Link
-                                to={`/user/${image.user_id}`}
-                                key={image.user_id}
-                            >
-                                <p>{`${image.title}`}</p>
-                            </Link>
+
+                            <p>{`${image.title}`}</p>
                         </div>
                     );
                 })}

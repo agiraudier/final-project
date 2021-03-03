@@ -414,11 +414,12 @@ app.post("/canvas", (req, res) => {
 
     db.uploadCanvas(id, url, "canvas", title)
         .then(({ rows }) => {
-            console.log("rows[0] canvas drawing: ", rows[0].url);
+            //console.log("rows[0] canvas drawing: ", rows[0].url);
             res.json({ success: true, data: rows[0].url });
         })
         .catch((err) => {
             console.log("this is the err in uploadCanvas: ", err);
+            res.json({ success: false });
         });
     /* } else {
         console.log("no input in canvas or canvas title");
@@ -429,11 +430,45 @@ app.post("/canvas", (req, res) => {
 app.get("/feed", (req, res) => {
     db.getTotalMedia()
         .then(({ rows }) => {
-            console.log("rows in getTotalMedia: ", rows);
+            //console.log("rows in getTotalMedia: ", rows);
             res.json({ success: true, rows: rows });
         })
         .catch((err) => {
             console.log("this is the err in getTotalMedia: ", err);
+            res.json({ success: false });
+        });
+});
+
+app.post("/feed", uploader.single("file"), s3.upload, (req, res) => {
+    const id = req.session.userId;
+    const { filename } = req.file;
+    const url = `${s3Url}${filename}`;
+    const title = req.body.title;
+
+    if (req.file) {
+        db.uploadMedia(id, url, "media", title)
+            .then(({ rows }) => {
+                //console.log("rows in uploadMedia: ", rows);
+                res.json({ success: true, data: rows[0] });
+            })
+            .catch((err) => {
+                console.log("this is the err in uploadMedia: ", err);
+                res.json({ success: false });
+            });
+    }
+});
+
+app.get("/images", (req, res) => {
+    const id = req.session.userId;
+
+    db.getParticularMedia(id)
+        .then(({ rows }) => {
+            //console.log("rows in getParticularMedia: ", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("this is the err in getParticularMedia: ", err);
+            res.json({ success: false });
         });
 });
 
