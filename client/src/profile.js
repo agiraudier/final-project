@@ -8,14 +8,16 @@ export function Profile(props) {
 
     return (
         <div>
-            <ProfilePic
-                // Passing down props:
-                id={props.id}
-                firstName={props.firstName}
-                lastName={props.lastName}
-                profilePicUrl={props.profilePicUrl}
-                toggleUploader={props.toggleUploader}
-            />
+            <div className="picInProfile">
+                <ProfilePic
+                    // Passing down props:
+                    id={props.id}
+                    firstName={props.firstName}
+                    lastName={props.lastName}
+                    profilePicUrl={props.profilePicUrl}
+                    toggleUploader={props.toggleUploader}
+                />
+            </div>
 
             <BioEditor bio={props.bio} />
             <Images id={props.id}></Images>

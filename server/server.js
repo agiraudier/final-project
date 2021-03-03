@@ -221,7 +221,7 @@ app.get("/api/user", (req, res) => {
     let id = req.session.userId;
     db.getUserData(id)
         .then(({ rows }) => {
-            console.log("this rows[0]: ", rows[0]);
+            //console.log("this rows[0]: ", rows[0]);
             res.json({ success: true, rows: rows[0] });
         })
         .catch((err) => {
@@ -395,7 +395,7 @@ app.get("/get-friends", (req, res) => {
 
     db.getFriends(user)
         .then(({ rows }) => {
-            console.log("rows get friends: ", rows);
+            //console.log("rows get friends: ", rows);
             res.json({ success: true, rows: rows, userId: user });
         })
         .catch((err) => {
@@ -477,7 +477,7 @@ app.get("/imagesOthers/:id", (req, res) => {
 
     db.getParticularMedia(id)
         .then(({ rows }) => {
-            console.log("rows in getParticularMedia otherprofile: ", rows);
+            //console.log("rows in getParticularMedia otherprofile: ", rows);
             res.json({ success: true, rows: rows });
         })
         .catch((err) => {
@@ -488,6 +488,20 @@ app.get("/imagesOthers/:id", (req, res) => {
             res.json({ success: false });
         });
 });
+
+/*app.get("/moreImages/:id", (req, res) => {
+    const id = req.params.id;
+
+    db.getMore(id)
+        .then(({ rows }) => {
+            console.log("this are the rows in moreImages: ", rows);
+            res.json({ success: true, rows: rows });
+        })
+        .catch((err) => {
+            console.log("this is the err in getMore: ", err);
+            res.json({ success: false });
+        });
+});*/
 
 app.get("/logout", (req, res) => {
     req.session = null;
@@ -540,7 +554,7 @@ io.on("connect", async function (socket) {
     });
 
     socket.on("disconnect", () => {
-        console.log(`Socket with id: ${socket.id} just DISCONNECTED`);
+        //console.log(`Socket with id: ${socket.id} just DISCONNECTED`);
         return socket.disconnect(true);
     });
 });

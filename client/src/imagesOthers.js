@@ -1,5 +1,7 @@
 import axios from "./axios.js";
 import { useState, useEffect } from "react";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 export function ImagesOthers(props) {
     const [images, setImages] = useState();
@@ -24,10 +26,11 @@ export function ImagesOthers(props) {
                 images.map((image, index) => {
                     return (
                         <div key={index}>
-                            <img
-                                src={image.canvas_url || image.media_url}
-                            ></img>
-
+                            <Zoom>
+                                <img
+                                    src={image.canvas_url || image.media_url}
+                                ></img>
+                            </Zoom>
                             <p>{`${image.title}`}</p>
                         </div>
                     );

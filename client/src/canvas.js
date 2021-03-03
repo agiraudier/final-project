@@ -1,27 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 //import axios from "./axios.js";
-import InputColor from "react-input-color";
+//import InputColor from "react-input-color";
 import { submitCanvas } from "./actions.js";
 
 export function Canvas() {
-    const [color, setColor] = useState({});
+    //const [color, setColor] = useState("#000000");
     const [elemType, setElemType] = useState("free");
     const [isDrawing, setIsDrawing] = useState(false);
     const [firstPoint, setFirstPoint] = useState({ x: null, y: null });
 
-    //const [redoTrack, setRedo] = useState([]);
-    //const [undoTrack, setUndo] = useState([]);
-
     const canvasRef = useRef(null);
     const contextRef = useRef(null);
     const titleRef = useRef(null);
+    const colorRef = useRef("#000000");
+    const lineWidthRef = useRef(2);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext("2d");
         contextRef.current = context;
-        context.strokeStyle = color.hex;
-        context.lineWidth = 2;
     }, []);
 
     const handleMouseDown = ({ nativeEvent }) => {
@@ -51,6 +48,11 @@ export function Canvas() {
         } else if (elemType == "circle") {
             console.log("handle mouse down circle: ", firstPoint);
             contextRef.current.beginPath();
+        } else if (elemType == "rubber") {
+            const x = nativeEvent.offsetX;
+            const y = nativeEvent.offsetY;
+
+            contextRef.current.clearRect(x, y, 10, 10);
         }
     };
 
@@ -72,6 +74,11 @@ export function Canvas() {
             console.log("moving rectangle");
         } else if (elemType == "circle") {
             console.log("moving circle");
+        } else if (elemType == "rubber") {
+            const x = nativeEvent.offsetX;
+            const y = nativeEvent.offsetY;
+
+            contextRef.current.clearRect(x, y, 10, 10);
         }
     };
 
@@ -159,6 +166,23 @@ export function Canvas() {
         submitCanvas(canvasImage, title);
     };
 
+    const clearCanvas = () => {
+        contextRef.current.clearRect(
+            0,
+            0,
+            canvasRef.current.width,
+            canvasRef.current.height
+        );
+    };
+
+    const setColor = () => {
+        contextRef.current.strokeStyle = colorRef.current.value;
+    };
+
+    const setLineWidth = () => {
+        contextRef.current.lineWidth = lineWidthRef.current.value;
+    };
+
     return (
         <div>
             <div>
@@ -193,16 +217,26 @@ export function Canvas() {
                 <label htmlFor="circle">Circle</label>
                 <input
                     type="radio"
-                    id="selection"
-                    checked={elemType == "selection"}
-                    onChange={() => setElemType("selection")}
+                    id="rubber"
+                    checked={elemType == "rubber"}
+                    onChange={() => setElemType("rubber")}
                 ></input>
-                <label htmlFor="circle">Selection</label>
-                <InputColor
-                    initialValue="#000000"
-                    onChange={setColor}
-                ></InputColor>
-                <input type="range" min="1" max="50"></input>
+                <label htmlFor="circle">Rubber</label>
+                <input
+                    type="color"
+                    id="color"
+                    ref={colorRef}
+                    onChange={() => setColor()}
+                ></input>
+                <input
+                    type="range"
+                    defaultValue="2"
+                    min="1"
+                    max="50"
+                    ref={lineWidthRef}
+                    onChange={() => setLineWidth()}
+                ></input>
+                <button onClick={() => clearCanvas()}>CLEAR</button>
             </div>
             <div>
                 <input
@@ -223,7 +257,14 @@ export function Canvas() {
                     onMouseOut={(e) => handleMouseOut(e)}
                 ></canvas>
 
-                <button onClick={() => onSubmitCanvas()}>SUBMIT</button>
+                <button
+                    href="#"
+                    id="download"
+                    download="myDrawing.jpg"
+                    onClick={() => onSubmitCanvas()}
+                >
+                    SUBMIT
+                </button>
             </div>
         </div>
     );

@@ -209,3 +209,16 @@ module.exports.getParticularMedia = (userId) => {
     const params = [userId];
     return db.query(q, params);
 };
+
+////GET MORE media feed///////////////////
+
+module.exports.getMore = (id) => {
+    const q = `SELECT * (SELECT id FROM content
+        ORDER BY id ASC LIMIT 1)
+        AS "lowestId" FROM content
+        WHERE id < $1
+        ORDER BY id DESC LIMIT 9`;
+
+    const params = [id];
+    return db.query(q, params);
+};

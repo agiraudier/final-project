@@ -131,7 +131,7 @@ export class App extends Component {
                     <Route path="/friendlist" render={() => <Friends />} />
                     <Route path="/chat" render={() => <Chat />} />
                     <Route path="/canvas" render={() => <Canvas />} />
-                    <Route path="/myfeed" render={() => <Feed />} />
+                    <Route exact path="/" render={() => <Feed />} />
                 </BrowserRouter>
             </div>
         );

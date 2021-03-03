@@ -3,7 +3,6 @@ export function ProfilePic({
     lastName,
     profilePicUrl,
     toggleUploader,
-    size = "",
 }) {
     /*console.log(
         "first name and last name from profilePic: ",
@@ -13,10 +12,13 @@ export function ProfilePic({
 
     return (
         <div onClick={toggleUploader}>
-            <img
-                src={profilePicUrl || "./default.png"}
-                alt={`${firstName} ${lastName}`}
-            ></img>
+            <div className="profileBox">
+                <img
+                    className="profilePic"
+                    src={profilePicUrl || "./default.png"}
+                    alt={`${firstName} ${lastName}`}
+                ></img>
+            </div>
         </div>
     );
 }

@@ -159,12 +159,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10000000;
 }
 
 .side {
     text-transform: uppercase;
     font-family: "Ornamentum - FREE TRIAL";
-    font-size: 6vw;
+    font-size: 4vw;
     padding-bottom: 30px;
 }
 
@@ -195,4 +196,69 @@ header {
 
 #canvas {
     border: solid 3px grey;
+}
+
+/*PROFILEPIC AREA//////////*/
+
+.profileBox {
+    border: 2px solid black;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.picInProfile {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+}
+
+/*FEED/////////////////////*/
+
+.container {
+    text-align: center;
+    max-width: 1200px;
+}
+#cards {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 300px 300px 300px;
+    grid-template-rows: 300px 300px 300px;
+    /*justify-content: center;
+    justify-items: center;
+    grid: none;*/
+}
+
+.imageBox {
+    display: flex;
+    padding: 7px;
+    background-color: white;
+    /*border: 1px solid black;*/
+    display: inline-block;
+    box-shadow: -1px -1px 20px 0px grey;
+}
+
+.imageBox:hover {
+    visibility: visible;
+    background-color: black;
+    opacity: 30%;
+    color: white;
+}
+.titlePic {
+    color: black;
+    border: none;
+    visibility: hidden;
+}
+
+.pic {
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    display: flex;
+    margin-top: -8px;
 }

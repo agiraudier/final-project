@@ -7,7 +7,9 @@ export function Header() {
     return (
         <header>
             <div>
-                <LogoHeader />
+                <Link to="/">
+                    <LogoHeader />
+                </Link>
             </div>
             <div className="totalIcons">
                 <Link to="/logout">
@@ -20,11 +22,14 @@ export function Header() {
                     <img className="icon" src="./chat.svg"></img>
                 </Link>
 
-                <Link to="/friendlist">
-                    <img className="icon" src="./friends.svg"></img>
+                <Link to="/canvas">
+                    <img className="icon" src="./brush.svg"></img>
                 </Link>
                 <Link to="/users">
                     <img className="icon" src="./search.svg"></img>
+                </Link>
+                <Link to="/">
+                    <img className="icon" src="./dashboard.svg"></img>
                 </Link>
             </div>
         </header>
