@@ -41,6 +41,7 @@ body {
     padding-bottom: 5%;
     outline: none;
     transition: 2s ease-in-out;
+    margin-top: -10px;
 }
 
 .regloginput {
@@ -203,20 +204,29 @@ header {
 /*PROFILEPIC AREA//////////*/
 
 .profileBox {
-    border: 2px solid black;
-    background-color: white;
+    border: 5px solid white;
+    box-shadow: -1px -1px 20px 0px black;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
+    align-content: center;
+    object-fit: cover;
+    width: 300px;
+    height: 300px;
+    margin: 20px;
 }
 
 .picInProfile {
-    width: 300px;
-    height: 300px;
+    align-self: center;
+    align-items: center;
+    padding-right: -10px;
+    object-fit: cover;
+}
+
+.Location {
     display: flex;
     justify-content: center;
-    align-content: center;
-    align-self: center;
     align-items: center;
 }
 
@@ -307,16 +317,17 @@ header {
 
 .submit {
     width: 15vh;
-    height: 20%;
+    height: 40px;
     cursor: pointer;
     background: transparent;
     text-transform: uppercase;
+    text-align: center;
     outline: none;
     transition: 1s ease-in-out;
     color: white;
     font-size: 20px;
     font-family: "Ornamentum - FREE TRIAL";
-    padding-bottom: 3%;
+    padding-bottom: 6px;
 }
 
 .submit:hover {
@@ -357,4 +368,101 @@ header {
     text-transform: uppercase;
     color: white;
     font-family: "Wired";
+}
+
+.send {
+    width: 15vh;
+    height: 20%;
+    cursor: pointer;
+    background: black;
+    text-transform: uppercase;
+    outline: none;
+    transition: 1s ease-in-out;
+    color: white;
+    font-size: 20px;
+    font-family: "Ornamentum - FREE TRIAL";
+    padding-bottom: 10px;
+    margin: 20px;
+}
+
+.send:hover {
+    transition: 1s ease-in-out;
+    background-color: white;
+    color: black;
+}
+
+.edition {
+    margin: 20px;
+}
+
+.bio {
+    font-family: "Trap";
+    margin: 30px;
+}
+
+.nameOther {
+    font-family: "Ornamentum - FREE TRIAL";
+    text-transform: uppercase;
+    font-size: 40px;
+}
+
+.canvasTitle {
+    color: black;
+    font-family: "Wired";
+    background-color: transparent;
+    border: transparent;
+    border-bottom: 2px black solid;
+}
+
+.canvasTitle::placeholder {
+    color: black;
+    font-family: "Wired";
+}
+
+.tools {
+    margin: 20px;
+    margin-top: 40px;
+}
+
+.thing {
+    margin: 5px;
+}
+
+.selector {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.fixedImg {
+    border: 2px solid black;
+    /* transform: rotate(
+270deg
+); */
+    position: fixed;
+    height: 100px;
+    width: 100px;
+    right: 10px;
+    bottom: 10px;
+    margin-top: 200px;
+    /* height: 392px; */
+    text-align: center;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000000;
+    box-shadow: -1px -1px 20px 0px grey;
+    object-fit: cover;
+    border-radius: 50%;
+    padding: -40px;
+}
+
+.uploader {
+    z-index: 1000000;
+    position: fixed;
+    bottom: 0;
+    right: 30px;
 }

@@ -409,6 +409,25 @@ app.get("/moreImages/:id", (req, res) => {
         });
 });
 
+app.post("/upload", (req, res) => {
+    const id = req.session.userId;
+    const url = req.body.url;
+    const title = req.body.title;
+
+    //console.log("req.body", req.body);
+    console.log(id);
+
+    db.uploadMedia(id, url, "canvas", title)
+        .then(({ rows }) => {
+            //console.log("rows[0] canvas drawing: ", rows[0].url);
+            res.json({ success: true, data: rows[0].url });
+        })
+        .catch((err) => {
+            console.log("this is the err in uploadCanvas: ", err);
+            res.json({ success: false });
+        });
+});
+
 app.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/welcome");

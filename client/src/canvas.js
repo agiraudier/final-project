@@ -186,65 +186,73 @@ export function Canvas() {
     return (
         <div>
             <div>
-                <input
-                    type="radio"
-                    id="free"
-                    checked={elemType == "free"}
-                    onChange={() => setElemType("free")}
-                ></input>
-                <label htmlFor="free">Free</label>
-                <input
-                    type="radio"
-                    id="line"
-                    checked={elemType == "line"}
-                    onChange={() => setElemType("line")}
-                ></input>
-                <label htmlFor="line">Line</label>
-                <input
-                    type="radio"
-                    id="rectangle"
-                    checked={elemType == "rectangle"}
-                    onChange={() => setElemType("rectangle")}
-                ></input>
-                <label htmlFor="rectangle">Rectangle</label>
+                <div className="tools">
+                    <input
+                        className="thing"
+                        type="radio"
+                        id="free"
+                        checked={elemType == "free"}
+                        onChange={() => setElemType("free")}
+                    ></input>
+                    <label htmlFor="free">Free</label>
+                    <input
+                        className="thing"
+                        type="radio"
+                        id="line"
+                        checked={elemType == "line"}
+                        onChange={() => setElemType("line")}
+                    ></input>
+                    <label htmlFor="line">Line</label>
+                    <input
+                        className="thing"
+                        type="radio"
+                        id="rectangle"
+                        checked={elemType == "rectangle"}
+                        onChange={() => setElemType("rectangle")}
+                    ></input>
+                    <label htmlFor="rectangle">Rectangle</label>
 
-                <input
-                    type="radio"
-                    id="circle"
-                    checked={elemType == "circle"}
-                    onChange={() => setElemType("circle")}
-                ></input>
-                <label htmlFor="circle">Circle</label>
-                <input
-                    type="radio"
-                    id="rubber"
-                    checked={elemType == "rubber"}
-                    onChange={() => setElemType("rubber")}
-                ></input>
-                <label htmlFor="circle">Rubber</label>
-                <input
-                    type="color"
-                    id="color"
-                    ref={colorRef}
-                    onChange={() => setColor()}
-                ></input>
-                <input
-                    type="range"
-                    defaultValue="2"
-                    min="1"
-                    max="50"
-                    ref={lineWidthRef}
-                    onChange={() => setLineWidth()}
-                ></input>
-                <button onClick={() => clearCanvas()}>CLEAR</button>
+                    <input
+                        className="thing"
+                        type="radio"
+                        id="circle"
+                        checked={elemType == "circle"}
+                        onChange={() => setElemType("circle")}
+                    ></input>
+                    <label htmlFor="circle">Circle</label>
+                    <input
+                        className="thing"
+                        type="radio"
+                        id="rubber"
+                        checked={elemType == "rubber"}
+                        onChange={() => setElemType("rubber")}
+                    ></input>
+                    <label htmlFor="circle">Rubber</label>
+                </div>
+                <br></br>
+                <div className="selector">
+                    <input
+                        className="thing"
+                        type="color"
+                        id="color"
+                        ref={colorRef}
+                        onChange={() => setColor()}
+                    ></input>
+                    <input
+                        className="thing"
+                        type="range"
+                        defaultValue="2"
+                        min="1"
+                        max="50"
+                        ref={lineWidthRef}
+                        onChange={() => setLineWidth()}
+                    ></input>
+                    <button className="send" onClick={() => clearCanvas()}>
+                        CLEAR
+                    </button>
+                </div>
             </div>
             <div>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="title"
-                    ref={titleRef}
-                ></input>
                 <input type="hidden" name="canvas" id="inputCanvas" />
                 <canvas
                     id="canvas"
@@ -256,8 +264,17 @@ export function Canvas() {
                     onMouseUp={(e) => handleMouseUp(e)}
                     onMouseOut={(e) => handleMouseOut(e)}
                 ></canvas>
+                <br></br>
 
+                <input
+                    className="canvasTitle"
+                    type="text"
+                    name="title"
+                    placeholder="title"
+                    ref={titleRef}
+                ></input>
                 <button
+                    className="send"
                     href="#"
                     id="download"
                     download="myDrawing.jpg"

@@ -53,21 +53,27 @@ export class BioEditor extends Component {
         if (this.state.editorVisible) {
             return (
                 <div>
-                    <h1>Edit mode</h1>
+                    <h1 className="edition">EDITION MODE</h1>
                     <textarea
                         onChange={(e) => this.handleChange(e)}
                         defaultValue={this.state.bio}
                         name="bio"
-                    ></textarea>
-                    <button onClick={() => this.handleClick()}>Save</button>
+                    ></textarea>{" "}
+                    <br></br>
+                    <button className="send" onClick={() => this.handleClick()}>
+                        Save
+                    </button>
                     {this.state.error && <p>Something broke :(</p>}
                 </div>
             );
         }
         return (
             <div>
-                <h4>{this.props.bio}</h4>
-                <button onClick={() => this.setState({ editorVisible: true })}>
+                <h4 className="bio">{this.props.bio}</h4>
+                <button
+                    className="send"
+                    onClick={() => this.setState({ editorVisible: true })}
+                >
                     Edit
                 </button>
             </div>

@@ -6,7 +6,6 @@ import "react-medium-image-zoom/dist/styles.css";
 
 export function Feed() {
     const [images, setImages] = useState();
-    const [showMore, setShowMore] = useState(true);
 
     useEffect(() => {
         axios
@@ -30,11 +29,22 @@ export function Feed() {
             const newData = images.concat(data.rows);
             //console.log("this is newData: ", newData);
             setImages(newData);
-
-            if (!lowestId) {
-                setShowMore(false);
-            }
         });
+    };
+
+    const uploadImg = () => {
+        let formData = new FormData();
+        formData.append("file", images.file);
+        formData.append("title", images.title);
+
+        axios
+            .post("/upload", formData)
+            .then((resp) => {
+                images.unshift(resp.data.rows);
+            })
+            .catch((err) => {
+                console.log("err in uploadImg: ", err);
+            });
     };
 
     return (
@@ -47,8 +57,10 @@ export function Feed() {
                     name="title"
                     placeholder="Title..."
                 ></input>
-                <input type="file" name="file"></input>
-                <button className="submit">Submit</button>
+                <input type="file" name="file" accept="image/*"></input>
+                <button className="submit" onClick={(e) => uploadImg(e)}>
+                    Submit
+                </button>
             </div>
             <div>
                 <h3 className="latest">- Latest creations -</h3>

@@ -43,6 +43,7 @@ export class Uploader extends Component {
         return (
             <div>
                 <input
+                    className="uploader"
                     name="file"
                     type="file"
                     accept="image/*"

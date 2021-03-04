@@ -11,7 +11,7 @@ export function ProfilePic({
     );*/
 
     return (
-        <div onClick={toggleUploader}>
+        <div className="Location" onClick={toggleUploader}>
             <div className="profileBox">
                 <img
                     className="profilePic"

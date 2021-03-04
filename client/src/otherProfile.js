@@ -50,13 +50,20 @@ export class OtherProfile extends Component {
         if (this.state.id) {
             return (
                 <div>
-                    <img
-                        src={`${this.state.profilePicUrl}` || `./default.png`}
-                    ></img>
-                    <h2>
-                        {this.state.firstName} {this.state.lastName}
+                    <div className="Location">
+                        <div className="profileBox">
+                            <img
+                                className="profilePic"
+                                src={`${
+                                    this.state.profilePicUrl || "/default.png"
+                                }`}
+                            ></img>
+                        </div>
+                    </div>
+                    <h2 className="nameOther">
+                        {this.state.firstName}_{this.state.lastName}
                     </h2>
-                    <h4>{this.state.bio}</h4>
+                    <h4 className="bio">{this.state.bio}</h4>
 
                     <ImagesOthers id={this.state.id}></ImagesOthers>
                 </div>

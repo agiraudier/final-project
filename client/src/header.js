@@ -18,9 +18,6 @@ export function Header() {
                 <Link to="/profile">
                     <img className="icon" src="./profile.svg"></img>
                 </Link>
-                <Link to="/chat">
-                    <img className="icon" src="./chat.svg"></img>
-                </Link>
 
                 <Link to="/canvas">
                     <img className="icon" src="./brush.svg"></img>
