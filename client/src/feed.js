@@ -32,6 +32,8 @@ export function Feed() {
         });
     };
 
+    /*
+
     const uploadImg = () => {
         let formData = new FormData();
         formData.append("file", images.file);
@@ -45,23 +47,10 @@ export function Feed() {
             .catch((err) => {
                 console.log("err in uploadImg: ", err);
             });
-    };
+    };*/
 
     return (
         <div>
-            <div className="barUploader">
-                <p className="add">You can add your content here...</p>
-                <input
-                    className="regloginput"
-                    type="text"
-                    name="title"
-                    placeholder="Title..."
-                ></input>
-                <input type="file" name="file" accept="image/*"></input>
-                <button className="submit" onClick={(e) => uploadImg(e)}>
-                    Submit
-                </button>
-            </div>
             <div>
                 <h3 className="latest">- Latest creations -</h3>
             </div>
@@ -80,14 +69,12 @@ export function Feed() {
                                             }
                                         ></img>
                                     </Zoom>
-
-                                    <p className="titleFeed">{`${image.title}`}</p>
                                 </div>
                                 <Link
                                     to={`/user/${image.user_id}`}
                                     key={image.user_id}
                                 >
-                                    <p className="userFeed">{`${image.first} ${image.last}`}</p>
+                                    <p className="titleFeed">{`${image.title}`}</p>
                                 </Link>
                             </div>
                         );

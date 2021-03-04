@@ -409,24 +409,28 @@ app.get("/moreImages/:id", (req, res) => {
         });
 });
 
-app.post("/upload", (req, res) => {
+/*
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     const id = req.session.userId;
-    const url = req.body.url;
+    const { filename } = req.file;
+    const url = `${s3Url}${filename}`;
     const title = req.body.title;
 
     //console.log("req.body", req.body);
     console.log(id);
-
-    db.uploadMedia(id, url, "canvas", title)
-        .then(({ rows }) => {
-            //console.log("rows[0] canvas drawing: ", rows[0].url);
-            res.json({ success: true, data: rows[0].url });
-        })
-        .catch((err) => {
-            console.log("this is the err in uploadCanvas: ", err);
-            res.json({ success: false });
-        });
+    if (req.file) {
+        db.uploadMedia(id, url, "media", title)
+            .then(({ rows }) => {
+                //console.log("rows[0] canvas drawing: ", rows[0].url);
+                res.json({ success: true, data: rows[0] });
+            })
+            .catch((err) => {
+                console.log("this is the err in uploadMedia: ", err);
+                res.json({ success: false });
+            });
+    }
 });
+*/
 
 app.get("/logout", (req, res) => {
     req.session = null;
