@@ -39,46 +39,51 @@ export function Feed() {
 
     return (
         <div>
-            <div>
-                <input type="text" name="title" placeholder="Title..."></input>
+            <div className="barUploader">
+                <p className="add">You can add your content here...</p>
+                <input
+                    className="regloginput"
+                    type="text"
+                    name="title"
+                    placeholder="Title..."
+                ></input>
                 <input type="file" name="file"></input>
-                <button>Submit</button>
+                <button className="submit">Submit</button>
             </div>
             <div>
-                <h3>Latest...</h3>
+                <h3 className="latest">- Latest creations -</h3>
             </div>
             <div id="cards">
                 {images &&
                     images.map((image, index) => {
                         return (
-                            <div key={index}>
-                                <div className="container">
-                                    <div className="imageBox">
-                                        <Zoom>
-                                            <img
-                                                className="pic"
-                                                src={
-                                                    image.canvas_url ||
-                                                    image.media_url
-                                                }
-                                            ></img>
-                                        </Zoom>
+                            <div className="container" key={index}>
+                                <div className="imageBox">
+                                    <Zoom>
+                                        <img
+                                            className="pic"
+                                            src={
+                                                image.canvas_url ||
+                                                image.media_url
+                                            }
+                                        ></img>
+                                    </Zoom>
 
-                                        <p className="titleFeed">{`${image.title}`}</p>
-                                    </div>{" "}
-                                    <Link
-                                        to={`/user/${image.user_id}`}
-                                        key={image.user_id}
-                                    >
-                                        <p className="titleFeed">{`${image.first} ${image.last}`}</p>
-                                    </Link>
+                                    <p className="titleFeed">{`${image.title}`}</p>
                                 </div>
+                                <Link
+                                    to={`/user/${image.user_id}`}
+                                    key={image.user_id}
+                                >
+                                    <p className="userFeed">{`${image.first} ${image.last}`}</p>
+                                </Link>
                             </div>
                         );
                     })}
-
-                <button onClick={() => loadMore()}>More</button>
             </div>
+            <button className="more" onClick={() => loadMore()}>
+                More
+            </button>
         </div>
     );
 }

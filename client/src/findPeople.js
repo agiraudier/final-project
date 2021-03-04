@@ -38,7 +38,7 @@ export function SearchUsers() {
 
     return (
         <div>
-            <h1 className="searchTitle">FIND PEOPLE...</h1>
+            <h1 className="searchTitle">FIND CREATORS...</h1>
             <input
                 className="inputSearch"
                 name="findPeople"
@@ -50,12 +50,15 @@ export function SearchUsers() {
 
             {users.map((user, index) => {
                 return (
-                    <div key={index}>
+                    <div id="people" key={index}>
                         <Link to={`/user/${user.id}`} key={user.id}>
-                            <img
-                                src={user.profile_pic_url || "/default.png"}
-                            ></img>
-                            <h3>{`${user.first} ${user.last}`}</h3>
+                            <div className="list">
+                                <img
+                                    className="profileSearch"
+                                    src={user.profile_pic_url || "/default.png"}
+                                ></img>
+                                <h3>{`${user.first} ${user.last}`}</h3>
+                            </div>
                         </Link>
                     </div>
                 );

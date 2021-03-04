@@ -6,7 +6,7 @@
 
 body {
     font-family: "Maze";
-
+    background-color: ghostwhite;
     text-align: center;
     /*width: 82vw;*/
 }
@@ -160,6 +160,7 @@ header {
     justify-content: center;
     align-items: center;
     z-index: 10000000;
+    box-shadow: -1px -1px 20px 0px grey;
 }
 
 .side {
@@ -195,7 +196,8 @@ header {
 /*CANVAS AREA///////////// */
 
 #canvas {
-    border: solid 3px grey;
+    border: solid 5px black;
+    box-shadow: -1px -1px 20px 0px grey;
 }
 
 /*PROFILEPIC AREA//////////*/
@@ -223,6 +225,8 @@ header {
 .container {
     text-align: center;
     max-width: 1200px;
+    background-color: white;
+    box-shadow: -1px -1px 20px 0px grey;
 }
 #cards {
     display: grid;
@@ -231,28 +235,20 @@ header {
     grid-template-rows: 400px 400px 400px;
     justify-content: center;
     justify-items: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
 
 .imageBox {
     display: flex;
     padding: 7px;
     background-color: white;
-    /*border: 1px solid black;*/
+
     display: inline-block;
-    border: 2px black solid;
-    box-shadow: -1px -1px 20px 0px grey;
 }
 
-.imageBox:hover {
-    visibility: visible;
-    background-color: black;
-    opacity: 30%;
-    color: white;
-}
-.titlePic {
-    color: black;
-    border: none;
-    visibility: hidden;
+.container:hover {
+    box-shadow: -1px -1px 20px 0px black;
 }
 
 .pic {
@@ -264,5 +260,101 @@ header {
 }
 
 .titleFeed {
+    font-family: "Wired";
+}
+
+.titleProfile {
+    font-family: "Wired";
+    padding-top: 35px;
+}
+
+.userFeed {
+    font-family: "Wired";
+    padding-top: 35px;
+}
+
+.latest {
+    margin: 20px;
+    font-family: "Trap";
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.barUploader {
+    background-color: black;
+    margin-top: 40px;
+    margin-left: 200px;
+    margin-right: 200px;
+    height: 50px;
+    color: white;
+    font-family: "Trap";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.more {
+    align-self: center;
+    padding: 50px;
+    background-color: transparent;
+    font-family: "Maze";
+    border: none;
+}
+
+.more:hover {
+    color: yellowgreen;
+}
+
+.submit {
+    width: 15vh;
+    height: 20%;
+    cursor: pointer;
+    background: transparent;
+    text-transform: uppercase;
+    outline: none;
+    transition: 1s ease-in-out;
+    color: white;
+    font-size: 20px;
+    font-family: "Ornamentum - FREE TRIAL";
+    padding-bottom: 3%;
+}
+
+.submit:hover {
+    transition: 1s ease-in-out;
+    background-color: white;
+    color: black;
+}
+
+#people {
+    display: grid;
+    gap: 30px;
+    font-family: "Wired";
+    font-size: 20px;
+    color: black;
+}
+
+.profileSearch {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px;
+    background-color: white;
+    padding: 15px;
+    margin-left: 300px;
+    margin-right: 300px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 6px 0px black;
+}
+
+.add {
+    margin-right: 70px;
+    text-transform: uppercase;
+    color: white;
     font-family: "Wired";
 }

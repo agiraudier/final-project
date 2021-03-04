@@ -27,21 +27,19 @@ export function Images() {
                 {images &&
                     images.map((image, index) => {
                         return (
-                            <div key={index}>
-                                <div className="container">
-                                    <div className="imageBox">
-                                        <Zoom>
-                                            <img
-                                                className="pic"
-                                                src={
-                                                    image.canvas_url ||
-                                                    image.media_url
-                                                }
-                                            ></img>
-                                        </Zoom>
+                            <div className="container" key={index}>
+                                <div className="imageBox">
+                                    <Zoom>
+                                        <img
+                                            className="pic"
+                                            src={
+                                                image.canvas_url ||
+                                                image.media_url
+                                            }
+                                        ></img>
+                                    </Zoom>
 
-                                        <p className="titleFeed">{`${image.title}`}</p>
-                                    </div>
+                                    <p className="titleProfile">{`${image.title}`}</p>
                                 </div>
                             </div>
                         );
