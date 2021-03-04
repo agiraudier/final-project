@@ -6,6 +6,7 @@ import "react-medium-image-zoom/dist/styles.css";
 
 export function Feed() {
     const [images, setImages] = useState();
+    const [showMore, setShowMore] = useState(true);
 
     useEffect(() => {
         axios
@@ -21,6 +22,21 @@ export function Feed() {
             });
     }, []);
 
+    const loadMore = () => {
+        const lowestId = images[images.length - 1].id;
+        console.log("lowestId: ", lowestId);
+
+        axios.get(`/moreImages/${lowestId}`).then(({ data }) => {
+            const newData = images.concat(data.rows);
+            //console.log("this is newData: ", newData);
+            setImages(newData);
+
+            if (!lowestId) {
+                setShowMore(false);
+            }
+        });
+    };
+
     return (
         <div>
             <div>
@@ -31,32 +47,38 @@ export function Feed() {
             <div>
                 <h3>Latest...</h3>
             </div>
-            {images &&
-                images.map((image, index) => {
-                    return (
-                        <div id="cards" key={index}>
-                            <div className="container">
-                                <div className="imageBox">
-                                    <Zoom>
-                                        <img
-                                            className="pic"
-                                            src={
-                                                image.canvas_url ||
-                                                image.media_url
-                                            }
-                                        ></img>
-                                    </Zoom>
+            <div id="cards">
+                {images &&
+                    images.map((image, index) => {
+                        return (
+                            <div key={index}>
+                                <div className="container">
+                                    <div className="imageBox">
+                                        <Zoom>
+                                            <img
+                                                className="pic"
+                                                src={
+                                                    image.canvas_url ||
+                                                    image.media_url
+                                                }
+                                            ></img>
+                                        </Zoom>
+
+                                        <p className="titleFeed">{`${image.title}`}</p>
+                                    </div>{" "}
                                     <Link
                                         to={`/user/${image.user_id}`}
                                         key={image.user_id}
                                     >
-                                        <p>{`${image.title}`}</p>
+                                        <p className="titleFeed">{`${image.first} ${image.last}`}</p>
                                     </Link>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+
+                <button onClick={() => loadMore()}>More</button>
+            </div>
         </div>
     );
 }

@@ -6,7 +6,7 @@ import { Profile } from "./profile.js";
 //import { ProfilePic } from "./profilePic.js";
 import { OtherProfile } from "./otherProfile.js";
 import { SearchUsers } from "./findPeople.js";
-import { Friends } from "./friends.js";
+
 import { Chat } from "./chat.js";
 import { BrowserRouter, Route } from "react-router-dom";
 import { Header } from "./header.js";
@@ -128,7 +128,7 @@ export class App extends Component {
                             />
                         )}
                     />
-                    <Route path="/friendlist" render={() => <Friends />} />
+
                     <Route path="/chat" render={() => <Chat />} />
                     <Route path="/canvas" render={() => <Canvas />} />
                     <Route exact path="/" render={() => <Feed />} />

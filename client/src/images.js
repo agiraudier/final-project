@@ -21,36 +21,32 @@ export function Images() {
             });
     }, []);
 
-    /*const loadMore = () => {
-        const lowestId = images[images - 1].id;
-
-        axios.get(`/moreImages/${lowestId}`).then(function (resp) {
-            for (let i = 0; i < resp.data.length; i++) {
-                images.push(resp.data[i]);
-                console.log("this is the lowest id: ", resp.data[i].lowestId);
-                /*if (resp.data[i].id == resp.data[i].lowestId) {
-                    setMore(false);
-                }
-            }
-        });
-    };*/
-
     return (
         <div>
-            {images &&
-                images.map((image, index) => {
-                    return (
-                        <div key={index}>
-                            <Zoom>
-                                <img
-                                    src={image.canvas_url || image.media_url}
-                                ></img>
-                            </Zoom>
+            <div id="cards">
+                {images &&
+                    images.map((image, index) => {
+                        return (
+                            <div key={index}>
+                                <div className="container">
+                                    <div className="imageBox">
+                                        <Zoom>
+                                            <img
+                                                className="pic"
+                                                src={
+                                                    image.canvas_url ||
+                                                    image.media_url
+                                                }
+                                            ></img>
+                                        </Zoom>
 
-                            <p>{`${image.title}`}</p>
-                        </div>
-                    );
-                })}
+                                        <p className="titleFeed">{`${image.title}`}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+            </div>
         </div>
     );
 }

@@ -310,100 +310,6 @@ app.get("/api/find/:val?", (req, res) => {
     }
 });
 
-app.get("/api/friends/:id", (req, res) => {
-    //console.log("req.params.id: ", req.params.id);
-    const searchedUser = req.params.id;
-    const user = req.session.userId;
-
-    db.checkFriendship(searchedUser, user)
-        .then(({ rows }) => {
-            if (!rows.length) {
-                res.json({
-                    button: "Request friendship",
-                });
-            } else if (rows[0].accepted) {
-                res.json({
-                    button: "Cancel friendship",
-                });
-            } else if (!rows[0].accepted) {
-                if (rows[0].recipient_id == user) {
-                    res.json({
-                        button: "Accept friendship",
-                    });
-                } else if (rows[0].sender_id == user) {
-                    res.json({
-                        button: "Cancel friendship request",
-                    });
-                }
-            }
-        })
-        .catch((err) => {
-            console.log("this is the err in checkFriendship: ", err);
-            res.json({ success: false });
-        });
-});
-
-app.post("/api/friends/:id", (req, res) => {
-    const searchedUser = req.params.id;
-    const user = req.session.userId;
-    const button = req.body.button;
-
-    if (button == "Request friendship") {
-        db.requestFriendship(searchedUser, user)
-            .then(({ rows }) => {
-                res.json({ button: "Cancel friendship request", rows: rows });
-            })
-            .catch((err) => {
-                console.log("this is the err in requestFriendship: ", err);
-                res.json({ success: false });
-            });
-    } else if (button == "Cancel friendship") {
-        db.cancelFriendship(searchedUser, user)
-            .then(({ rows }) => {
-                res.json({ button: "Request friendship", rows: rows });
-            })
-            .catch((err) => {
-                console.log("this is the err in cancelFriendship: ", err);
-                res.json({ success: false });
-            });
-    } else if (button == "Accept friendship") {
-        db.acceptFriendship(searchedUser, user)
-            .then(({ rows }) => {
-                res.json({ button: "Cancel friendship", rows: rows });
-            })
-            .catch((err) => {
-                console.log("this is the err in acceptFriendship: ", err);
-                res.json({ success: false });
-            });
-    } else if (button == "Cancel friendship request") {
-        db.cancelFriendship(searchedUser, user)
-            .then(({ rows }) => {
-                res.json({ button: "Request friendship", rows: rows });
-            })
-            .catch((err) => {
-                console.log(
-                    "this is the err in cancelFriendship/request: ",
-                    err
-                );
-                res.json({ success: false });
-            });
-    }
-});
-
-app.get("/get-friends", (req, res) => {
-    const user = req.session.userId;
-
-    db.getFriends(user)
-        .then(({ rows }) => {
-            //console.log("rows get friends: ", rows);
-            res.json({ success: true, rows: rows, userId: user });
-        })
-        .catch((err) => {
-            console.log("this is the err in getFriends: ", err);
-            res.json({ success: false });
-        });
-});
-
 app.post("/canvas", (req, res) => {
     const id = req.session.userId;
     const url = req.body.url;
@@ -489,19 +395,19 @@ app.get("/imagesOthers/:id", (req, res) => {
         });
 });
 
-/*app.get("/moreImages/:id", (req, res) => {
+app.get("/moreImages/:id", (req, res) => {
     const id = req.params.id;
 
     db.getMore(id)
         .then(({ rows }) => {
-            console.log("this are the rows in moreImages: ", rows);
+            //console.log("this are the rows in moreImages: ", rows);
             res.json({ success: true, rows: rows });
         })
         .catch((err) => {
             console.log("this is the err in getMore: ", err);
             res.json({ success: false });
         });
-});*/
+});
 
 app.get("/logout", (req, res) => {
     req.session = null;

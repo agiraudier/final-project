@@ -213,7 +213,7 @@ module.exports.getParticularMedia = (userId) => {
 ////GET MORE media feed///////////////////
 
 module.exports.getMore = (id) => {
-    const q = `SELECT * (SELECT id FROM content
+    const q = `SELECT *, (SELECT id FROM content
         ORDER BY id ASC LIMIT 1)
         AS "lowestId" FROM content
         WHERE id < $1
